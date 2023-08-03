@@ -1,0 +1,84 @@
+{
+  "name": "tsrep",
+  "description": "",
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.18",
+    "eslint": "^8.43.0",
+    "eslint-plugin-perfectionist": "^1.4.0",
+    "prettier": "^3.0.0",
+    "react": "^18.2.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.5"
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:perfectionist/recommended-natural"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-non-null-assertion": 0
+    }
+  },
+  "config": {
+    "commitizen": {
+      "types": [
+        {
+          "value": "feat",
+          "name": "feat:     New feature"
+        },
+        {
+          "value": "fix",
+          "name": "fix:      Bug fix"
+        },
+        {
+          "value": "improve",
+          "name": "improve:  Improves feature or performance"
+        },
+        {
+          "value": "docs",
+          "name": "docs:     Documentation only changes"
+        },
+        {
+          "value": "refactor",
+          "name": "refactor: Code refactoring"
+        },
+        {
+          "value": "chore",
+          "name": "chore:    Other changes that don't modify src or test files"
+        }
+      ],
+      "skipQuestions": [
+        "scope",
+        "body",
+        "footerPrefix",
+        "footer"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bisquit/tsrep.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bisquit/tsrep/issues"
+  }
+}
