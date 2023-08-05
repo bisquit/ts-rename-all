@@ -12,7 +12,7 @@ import { replicateDir } from './core/replicateDir.js';
 import { getPathComponents } from './utils/get-path-components.js';
 
 const argv = cli({
-  name: 'tsrep',
+  name: pkg.name,
 
   version: pkg.version,
 
@@ -29,8 +29,6 @@ const argv = cli({
 const srcDirPath = argv._.srcDirPath;
 
 const { filename: dirname } = getPathComponents(srcDirPath);
-
-intro('tsrep - TypeScript Replicator');
 
 const destDirName = String(
   await text({
