@@ -2,7 +2,7 @@
 
 import { resolve } from 'node:path';
 
-import { intro, log, outro, text } from '@clack/prompts';
+import { intro, outro, text } from '@clack/prompts';
 import { pascalCase } from 'change-case';
 import { cli } from 'cleye';
 import colors from 'picocolors';
