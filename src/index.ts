@@ -30,17 +30,30 @@ export async function replicate(
   const project = new Project({});
   const sourceFile = project.addSourceFileAtPath(src);
 
-  console.log('getbasename', sourceFile.getBaseName());
-
-  const destFile = sourceFile.copy(`AppButton2.tsx`, {
+  // copy with basename to destSymbol.<ext>
+  const destFilename = sourceFile.getBaseName().replace(srcSymbol, destSymbol);
+  const destFile = sourceFile.copy(destFilename, {
     overwrite: true,
   });
 
   const functions = destFile.getFunctions();
   for (const fn of functions) {
-    const fnName = fn.getName();
-    console.log('fnName', fnName);
-    fn.rename('AppButton2');
+    const name = fn.getName();
+    if (name?.includes(srcSymbol)) {
+      const renamed = name.replace(srcSymbol, destSymbol);
+      console.log(`function: ${name} -> ${renamed}`);
+      fn.rename(renamed);
+    }
+  }
+
+  const types = destFile.getTypeAliases();
+  for (const type of types) {
+    const name = type.getName();
+    if (name?.includes(srcSymbol)) {
+      const renamed = name.replace(srcSymbol, destSymbol);
+      console.log(`type: ${name} -> ${renamed}`);
+      type.rename(renamed);
+    }
   }
 
   // 5. save the new file
@@ -49,5 +62,5 @@ export async function replicate(
 
 await replicate(resolve('fixtures/AppButton.tsx'), {
   srcSymbol: 'AppButton',
-  destSymbol: 'AppButton2',
+  destSymbol: 'AppCard',
 });
