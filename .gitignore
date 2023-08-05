@@ -20,5 +20,11 @@ dist-ssr
 *.sln
 *.sw?
 
+# fixtures
+fixtures/*
+!fixtures/tsconfig.json
+!fixtures/app-button
+!fixtures/AppButton.tsx
+
 # vitest coverage
 coverage

@@ -4,6 +4,9 @@
 # Install dependencies
 pnpm i
 
-# Run src (index.ts) directly
-pnpm dev
+# Run src (cli.ts) directly
+pnpm dev fixtures/app-button
+
+# with debug log
+DEBUG=tsrep pnpm dev fixtures/app-button
 ```
