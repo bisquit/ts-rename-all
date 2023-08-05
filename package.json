@@ -1,12 +1,20 @@
 {
   "name": "tsrep",
-  "description": "",
+  "description": "replicate typescript files with renaming symbols",
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "bin": {
+    "tsrep": "./dist/cli.js"
+  },
+  "engines": {
+    "node": "^18.0.0"
+  },
   "scripts": {
-    "dev": "tsx src/cli.ts"
+    "dev": "tsx src/cli.ts",
+    "build": "tsup src/index.ts src/cli.ts --format esm --clean"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.0",
@@ -22,6 +30,7 @@
     "prettier": "^3.0.0",
     "react": "^18.2.0",
     "ts-morph": "^19.0.0",
+    "tsup": "^7.2.0",
     "tsx": "^3.12.7",
     "typescript": "^5.1.5"
   },
