@@ -8,6 +8,7 @@ import { cli } from 'cleye';
 import colors from 'picocolors';
 
 import pkg from '../package.json';
+import { replaceDir } from './core/replaceDir.js';
 import { replicateDir } from './core/replicateDir.js';
 import { getPathComponents } from './utils/get-path-components.js';
 
@@ -48,10 +49,10 @@ const destDirName = String(
 const srcSymbol = pascalCase(dirname);
 const destSymbol = pascalCase(destDirName);
 
-await replicateDir(resolve(process.cwd(), srcDirPath), {
+await replaceDir(resolve(process.cwd(), srcDirPath), {
   destDirName,
   srcSymbol,
   destSymbol,
 });
 
-outro(colors.cyan('✔ Successfully replicated.'));
+outro(colors.cyan('✔ Successfully replaced.'));
