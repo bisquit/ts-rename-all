@@ -1,7 +1,7 @@
 {
   "name": "tsrep",
   "description": "replicate typescript files with renaming symbols",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
