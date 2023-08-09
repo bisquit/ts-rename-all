@@ -25,5 +25,13 @@
     "@types/node": "^20.4.7",
     "@types/shelljs": "^0.8.12",
     "tsup": "^7.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bisquit/ts-rename-all.git",
+    "directory": "packages/shared"
+  },
+  "bugs": {
+    "url": "https://github.com/bisquit/ts-rename-all/issues"
   }
 }
