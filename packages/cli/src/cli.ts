@@ -8,21 +8,20 @@ import { pascalCase } from 'change-case';
 import { cli } from 'cleye';
 import colors from 'picocolors';
 
-import { description, name, version } from '../package.json';
+import { bin, description, version } from '../package.json';
 import symbolsCommand from './commands/symbols.js';
 
 const argv = cli({
-  name: name,
+  name: Object.keys(bin).at(0),
 
   version: version,
 
-  parameters: ['<srcDirPath>'],
+  parameters: ['<path>'],
 
   flags: {},
 
   help: {
     description: description,
-    examples: ['tsrep src/app-button'],
   },
 
   commands: [symbolsCommand],

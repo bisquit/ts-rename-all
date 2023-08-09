@@ -7,6 +7,10 @@ export default command(
   {
     name: 'symbols',
     parameters: ['<srcFilePath>', '<srcSymbolPattern>', '<destSymbolPattern>'],
+    help: {
+      description: 'Rename all symbols in a file.',
+      examples: ['ts-rename-all symbols src/index.ts Foo Bar'],
+    },
   },
   async (argv) => {
     console.log(argv);
