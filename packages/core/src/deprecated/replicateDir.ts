@@ -4,10 +4,10 @@ import { resolve } from 'node:path';
 
 import { Project } from 'ts-morph';
 
+import { renameSymbols } from '../renameSymbols.js';
 import { copy } from '../utils/copy.js';
 import { debug } from '../utils/debug.js';
 import { renameFilename } from './renameFilename.js';
-import { renameSymbols } from './renameSymbols.js';
 
 /**
  * replicate a directory

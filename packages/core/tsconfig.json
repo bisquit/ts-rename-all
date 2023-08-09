@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node16",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "strict": true,
+    "skipLibCheck": true,
+
+    "noEmit": true
+  },
+  "include": ["src"],
+  "exclude": ["src/deprecated/**/*"],
+  "references": [
+    {
+      "path": "../util"
+    }
+  ]
+}

@@ -28,3 +28,6 @@ fixtures/*
 
 # vitest coverage
 coverage
+
+# turborepo
+.turbo
