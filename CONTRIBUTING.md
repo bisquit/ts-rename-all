@@ -14,9 +14,10 @@ pnpm build
 ## Publish
 
 ```sh
+# Bump version, commit, tag, push
 pnpm bump
-
-pnpm publish -r
+# Publish to npm
+pnpm release
 ```
 
 ## CLI
