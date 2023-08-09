@@ -1,5 +1,6 @@
 import { outro } from '@clack/prompts';
 import { renameSymbols } from '@ts-rename-all/core';
+import { debug } from '@ts-rename-all/shared';
 import { command } from 'cleye';
 import colors from 'picocolors';
 
@@ -13,7 +14,7 @@ export default command(
     },
   },
   async (argv) => {
-    console.log(argv);
+    debug('argv', argv);
 
     await renameSymbols(argv._.srcFilePath, {
       srcSymbolPattern: argv._.srcSymbolPattern,
