@@ -3,7 +3,7 @@
 import { resolve } from 'node:path';
 
 import { intro, outro, text } from '@clack/prompts';
-import { getPathComponents } from '@ts-rename-all/util/get-path-components.js';
+import { getPathComponents } from '@ts-rename-all/shared';
 import { pascalCase } from 'change-case';
 import { cli } from 'cleye';
 import colors from 'picocolors';

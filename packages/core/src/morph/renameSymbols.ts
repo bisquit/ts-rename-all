@@ -1,4 +1,4 @@
-import { debug } from '@ts-rename-all/util/debug.js';
+import { debug } from '@ts-rename-all/shared';
 import { SourceFile } from 'ts-morph';
 
 export async function renameSymbols(

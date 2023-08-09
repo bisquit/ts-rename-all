@@ -1,0 +1,29 @@
+{
+  "name": "@ts-rename-all/shared",
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.cjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.8",
+    "@types/node": "^20.4.7",
+    "@types/shelljs": "^0.8.12",
+    "tsup": "^7.1.0"
+  }
+}

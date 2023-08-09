@@ -5,6 +5,4 @@ export default defineConfig({
   dts: true,
   format: ['cjs', 'esm'],
   clean: true,
-  // noExternal: ['@ts-rename-all/shared'],
-  // skipNodeModulesBundle: true,
 });

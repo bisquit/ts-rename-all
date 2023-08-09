@@ -11,7 +11,7 @@
   "scripts": {
     "build": "pnpm turbo build",
     "bump": "bumpp -r",
-    "publish": "pnpm publish -r"
+    "release": "pnpm publish -r --access public"
   },
   "devDependencies": {
     "@types/react": "^18.2.18",

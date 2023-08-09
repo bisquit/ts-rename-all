@@ -4,6 +4,6 @@ export default defineConfig({
   entry: ['src/cli.ts'],
   format: ['esm'],
   clean: true,
-  // noExternal: ['@ts-rename-all/util'],
+  // noExternal: ['@ts-rename-all/shared'],
   // skipNodeModulesBundle: true,
 });

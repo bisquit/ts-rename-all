@@ -12,10 +12,5 @@
     "noEmit": true
   },
   "include": ["src"],
-  "exclude": ["src/deprecated/**/*"],
-  "references": [
-    {
-      "path": "../util"
-    }
-  ]
+  "exclude": ["src/deprecated/**/*"]
 }
