@@ -16,9 +16,9 @@ pnpm build
 ```sh
 # Bump version, commit, tag, push
 pnpm bump
-# Publish to npm
-pnpm release
 ```
+
+Then, Github Actions will publish to npm.
 
 ## CLI
 

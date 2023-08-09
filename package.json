@@ -10,8 +10,7 @@
   },
   "scripts": {
     "build": "pnpm turbo build",
-    "bump": "bumpp -r",
-    "release": "pnpm build && pnpm publish -r --access public"
+    "bump": "bumpp -r"
   },
   "devDependencies": {
     "@types/react": "^18.2.18",
