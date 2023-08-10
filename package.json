@@ -10,6 +10,8 @@
   },
   "scripts": {
     "build": "pnpm turbo build",
+    "lint": "pnpm turbo lint",
+    "typecheck": "pnpm turbo build",
     "bump": "bumpp -r"
   },
   "devDependencies": {
