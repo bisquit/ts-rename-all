@@ -17,7 +17,7 @@ ts-rename-all
 ### Install
 
 ```sh
-pnpm add -g @ts-rename-all/core
+pnpm add @ts-rename-all/core
 ```
 
 ### API
@@ -54,6 +54,8 @@ renameFile(srcFilePath: string, config: {
 ```
 
 ```ts
+import { renameFile } from '@ts-rename-all/core';
+
 await renameFile(resolve('AppButton.tsx'), {
   destFileName: 'AppTab.tsx',
 });
@@ -71,7 +73,9 @@ renameFiles(dirPath: string, config: {
 ```
 
 ```ts
-await renameFiles(resolve(testDir, 'app-button'), {
+import { renameFiles } from '@ts-rename-all/core';
+
+await renameFiles(resolve('app-button'), {
   srcFileNamePattern: 'Button',
   destFileNamePattern: 'Tab',
 });
@@ -89,7 +93,9 @@ renameDir(srcDirPath: string, config: {
 ```
 
 ```ts
-await renameDir(resolve(testDir, 'app-button'), {
+import { renameDir } from '@ts-rename-all/core';
+
+await renameDir(resolve('app-button'), {
   destDirName: 'app-tab',
 });
 ```
