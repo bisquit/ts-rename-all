@@ -144,9 +144,6 @@ importers:
       rimraf:
         specifier: ^5.0.1
         version: 5.0.1
-      tsup:
-        specifier: ^7.1.0
-        version: 7.1.0(typescript@5.1.5)
       typescript:
         specifier: ^5.1.5
         version: 5.1.5

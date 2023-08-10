@@ -64,7 +64,6 @@
     "build": "rimraf dist && pnpm build:client --minify && pnpm build:server --minify",
     "build:client": "esbuild src/client/extension.ts --bundle --outfile=dist/client/extension.js --external:vscode --format=cjs --platform=node",
     "build:server": "esbuild src/server/server.ts --bundle --outfile=dist/server/server.js --external:vscode --format=cjs --platform=node",
-    "build2": "tsup src/client/extension.ts src/server/server.ts --format=cjs --external=vscode --sourcemap --clean",
     "lint": "eslint \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "vsce:package": "pnpm vsce package --no-dependencies",
@@ -82,7 +81,6 @@
     "concurrently": "^8.2.0",
     "esbuild": "^0.19.0",
     "rimraf": "^5.0.1",
-    "tsup": "^7.1.0",
     "typescript": "^5.1.5"
   },
   "repository": {

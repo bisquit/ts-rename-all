@@ -8,11 +8,7 @@ const connection = createConnection(ProposedFeatures.all);
 
 connection.onInitialize(() => {
   return {
-    capabilities: {
-      // executeCommandProvider: {
-      //   commands: ['ts-rename-all.sample'],
-      // },
-    },
+    capabilities: {},
   };
 });
 
