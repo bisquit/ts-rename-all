@@ -3,6 +3,7 @@
   "version": "0.1.2",
   "license": "MIT",
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -17,13 +18,11 @@
     "build": "tsup"
   },
   "dependencies": {
-    "debug": "^4.3.4",
-    "shelljs": "^0.8.5"
+    "debug": "^4.3.4"
   },
   "devDependencies": {
     "@types/debug": "^4.1.8",
     "@types/node": "^20.4.7",
-    "@types/shelljs": "^0.8.12",
     "tsup": "^7.1.0"
   },
   "repository": {
