@@ -1,5 +1,3 @@
-import { getPathComponents } from '@ts-rename-all/shared';
-import diff from 'fast-diff';
 import { Project } from 'ts-morph';
 
 import { renameFileName as _renameFilename } from './morph/renameFileName.js';
