@@ -24,6 +24,8 @@ pnpm add -g @ts-rename-all/core
 
 #### renameSymbols
 
+Rename all symbols in a file.
+
 ```ts
 renameSymbols(srcFilePath: string, config: {
   srcSymbolPattern: string;
@@ -37,5 +39,57 @@ import { renameSymbols } from '@ts-rename-all/core';
 await renameSymbols(resolve('AppButton.tsx'), {
   srcSymbolPattern: 'Button',
   destSymbolPattern: 'Tab',
+});
+```
+
+#### renameFile
+
+Rename a file name and all symbols in the file.
+
+```ts
+renameFile(srcFilePath: string, config: {
+  destFileName: string;
+  srcFileName?: string;
+}): Promise<void>;
+```
+
+```ts
+await renameFile(resolve('AppButton.tsx'), {
+  destFileName: 'AppTab.tsx',
+});
+```
+
+#### renameFiles
+
+Rename all files in a directory and all symbols in the files.
+
+```ts
+renameFiles(dirPath: string, config: {
+  srcFileNamePattern: string;
+  destFileNamePattern: string;
+}): Promise<void>;
+```
+
+```ts
+await renameFiles(resolve(testDir, 'app-button'), {
+  srcFileNamePattern: 'Button',
+  destFileNamePattern: 'Tab',
+});
+```
+
+#### renameDir
+
+Rename a directory name and all files in the directory and all symbols in the files.
+
+```ts
+renameDir(srcDirPath: string, config: {
+  destDirName: string;
+  srcDirName?: string;
+}): Promise<void>;
+```
+
+```ts
+await renameDir(resolve(testDir, 'app-button'), {
+  destDirName: 'app-tab',
 });
 ```
