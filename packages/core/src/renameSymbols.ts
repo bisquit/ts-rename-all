@@ -10,5 +10,6 @@ export async function renameSymbols(
   const sourceFile = project.addSourceFileAtPath(srcFilePath);
 
   await _renameSymbols(sourceFile, config);
+
   await project.save();
 }
