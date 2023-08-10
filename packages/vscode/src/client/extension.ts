@@ -1,4 +1,5 @@
-import * as path from 'path';
+import * as path from 'node:path';
+
 import { ExtensionContext, workspace } from 'vscode';
 import * as vscode from 'vscode';
 import {

@@ -1,3 +1,4 @@
+import { renameSymbols } from '@ts-rename-all/core';
 import * as vscode from 'vscode';
 import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
 
@@ -15,7 +16,7 @@ connection.onInitialize(() => {
   };
 });
 
-connection.onExecuteCommand((params) => {
+connection.onExecuteCommand(async (params) => {
   console.log('onExecuteCommand', params);
 
   if (params.command === 'ts-rename-all.renameSymbols') {
@@ -25,6 +26,11 @@ connection.onExecuteCommand((params) => {
       destSymbolPattern: string;
     };
     console.log('arg', arg);
+
+    await renameSymbols(arg.srcFilePath, {
+      srcSymbolPattern: arg.srcSymbolPattern,
+      destSymbolPattern: arg.destSymbolPattern,
+    });
   }
 
   if (params.command === 'ts-rename-all.sample') {

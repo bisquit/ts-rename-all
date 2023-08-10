@@ -1,1 +1,1 @@
-export { renameSymbols } from './renameSymbols.js';
+export * from './renameSymbols.js';

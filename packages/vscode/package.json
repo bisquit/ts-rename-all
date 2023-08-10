@@ -61,7 +61,7 @@
     "dev": "concurrently --raw --kill-others pnpm:dev:*",
     "dev:client": "pnpm build:client --watch",
     "dev:server": "pnpm build:server --watch",
-    "build": "rimraf dist && pnpm build:client && pnpm build:server",
+    "build": "rimraf dist && pnpm build:client --minify && pnpm build:server --minify",
     "build:client": "esbuild src/client/extension.ts --bundle --outfile=dist/client/extension.js --external:vscode --format=cjs --platform=node",
     "build:server": "esbuild src/server/server.ts --bundle --outfile=dist/server/server.js --external:vscode --format=cjs --platform=node",
     "build2": "tsup src/client/extension.ts src/server/server.ts --format=cjs --external=vscode --sourcemap --clean",
@@ -71,12 +71,8 @@
     "vsce:publish": "pnpm vsce publish --no-dependencies"
   },
   "dependencies": {
-    "@clack/prompts": "^0.6.3",
     "@ts-rename-all/core": "workspace:*",
     "@ts-rename-all/shared": "workspace:*",
-    "change-case": "^4.1.2",
-    "cleye": "^1.3.2",
-    "picocolors": "^1.0.0",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver": "^8.1.0"
   },
@@ -87,7 +83,6 @@
     "esbuild": "^0.19.0",
     "rimraf": "^5.0.1",
     "tsup": "^7.1.0",
-    "tsx": "^3.12.7",
     "typescript": "^5.1.5"
   },
   "repository": {

@@ -31,3 +31,6 @@ coverage
 
 # turborepo
 .turbo
+
+# vscode vsix
+*.vsix
