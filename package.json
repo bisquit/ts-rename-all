@@ -11,7 +11,8 @@
   "scripts": {
     "build": "pnpm turbo build",
     "lint": "pnpm turbo lint",
-    "typecheck": "pnpm turbo build",
+    "typecheck": "pnpm turbo typecheck",
+    "test:ci": "pnpm turbo test:ci",
     "bump": "bumpp -r"
   },
   "devDependencies": {
