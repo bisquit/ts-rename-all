@@ -66,8 +66,8 @@
     "build:server": "esbuild src/server/server.ts --bundle --outfile=dist/server/server.js --external:vscode --format=cjs --platform=node",
     "lint": "eslint \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
-    "vsce:package": "pnpm vsce package --no-dependencies",
-    "vsce:publish": "pnpm vsce publish --no-dependencies"
+    "vsce:package": "vsce package --no-dependencies",
+    "vsce:publish": "vsce publish --no-dependencies"
   },
   "dependencies": {
     "@ts-rename-all/core": "workspace:*",
@@ -78,6 +78,7 @@
   "devDependencies": {
     "@types/node": "^20.4.7",
     "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.20.1",
     "concurrently": "^8.2.0",
     "esbuild": "^0.19.0",
     "rimraf": "^5.0.1",

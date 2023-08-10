@@ -28,8 +28,16 @@ jobs:
       - name: build
         run: pnpm build
 
-      - name: publish
+      - name: publish npm packages
         run: pnpm publish -r --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      - name: publish vscode extension
+        run: |
+          cd packages/vscode
+          pnpm vsce:package
+          pnpm vsce:publish
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
