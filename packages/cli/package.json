@@ -23,7 +23,6 @@
     "@clack/prompts": "^0.6.3",
     "@ts-rename-all/core": "workspace:*",
     "@ts-rename-all/shared": "workspace:*",
-    "change-case": "^4.1.2",
     "cleye": "^1.3.2",
     "picocolors": "^1.0.0"
   },

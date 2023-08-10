@@ -1,14 +1,11 @@
 #!/usr/bin/env node
 
-import { resolve } from 'node:path';
-
-import { intro, outro, text } from '@clack/prompts';
-import { getPathComponents } from '@ts-rename-all/shared';
-import { pascalCase } from 'change-case';
 import { cli } from 'cleye';
-import colors from 'picocolors';
 
 import { bin, description, version } from '../package.json';
+import dirCommand from './commands/dir.js';
+import fileCommand from './commands/file.js';
+import filesCommand from './commands/files.js';
 import symbolsCommand from './commands/symbols.js';
 
 const argv = cli({
@@ -16,43 +13,11 @@ const argv = cli({
 
   version: version,
 
-  parameters: ['<path>'],
-
-  flags: {},
+  parameters: ['<command>'],
 
   help: {
     description: description,
   },
 
-  commands: [symbolsCommand],
+  commands: [symbolsCommand, fileCommand, filesCommand, dirCommand],
 });
-
-// const srcDirPath = argv._.srcDirPath;
-
-// const { filename: dirname } = getPathComponents(srcDirPath);
-
-// const destDirName = String(
-//   await text({
-//     message: 'Type new directory name',
-//     initialValue: dirname,
-//     validate: (value) => {
-//       if (value === dirname) {
-//         return 'Please enter a new directory name';
-//       }
-//       if (value.length === 0) {
-//         return 'Please enter a directory name';
-//       }
-//     },
-//   }),
-// );
-
-// const srcSymbol = pascalCase(dirname);
-// const destSymbol = pascalCase(destDirName);
-
-// await replaceDir(resolve(process.cwd(), srcDirPath), {
-//   destDirName,
-//   srcSymbol,
-//   destSymbol,
-// });
-
-// outro(colors.cyan('✔ Successfully replaced.'));
