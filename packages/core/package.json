@@ -22,7 +22,8 @@
     "build": "tsup",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ci": "pnpm run test --run"
   },
   "dependencies": {
     "@ts-rename-all/shared": "workspace:*",
