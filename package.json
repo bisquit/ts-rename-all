@@ -20,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "bumpp": "^9.1.1",
+    "changelogithub": "^0.12.12",
     "eslint": "^8.43.0",
     "eslint-plugin-perfectionist": "^1.4.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
