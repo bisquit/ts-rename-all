@@ -1,6 +1,6 @@
 {
   "name": "@ts-rename-all/shared",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,

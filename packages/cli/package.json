@@ -1,7 +1,7 @@
 {
   "name": "@ts-rename-all/cli",
   "description": "Once rename, then others are also renamed the same way.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "type": "module",
   "files": [
