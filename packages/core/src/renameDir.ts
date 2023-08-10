@@ -41,15 +41,5 @@ export async function renameDir(
     });
   }
 
-  // await _renameFilename(sourceFile, {
-  //   srcSymbolPattern: srcFileName,
-  //   destSymbolPattern: config.destFileName,
-  // });
-
-  // await _renameSymbols(sourceFile, {
-  //   srcSymbolPattern: before ?? '',
-  //   destSymbolPattern: after ?? '',
-  // });
-
   await project.save();
 }

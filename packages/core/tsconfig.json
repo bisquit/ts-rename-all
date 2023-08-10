@@ -11,6 +11,5 @@
 
     "noEmit": true
   },
-  "include": ["src"],
-  "exclude": ["src/deprecated/**/*"]
+  "include": ["src"]
 }
