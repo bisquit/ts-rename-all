@@ -131,6 +131,9 @@ importers:
       '@ts-rename-all/shared':
         specifier: workspace:*
         version: link:../shared
+      vscode-jsonrpc:
+        specifier: ^8.1.0
+        version: 8.1.0
       vscode-languageclient:
         specifier: ^8.1.0
         version: 8.1.0
