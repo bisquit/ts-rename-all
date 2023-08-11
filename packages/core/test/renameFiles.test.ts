@@ -4,7 +4,7 @@ import { basename, resolve } from 'node:path';
 
 import { beforeEach, expect, test } from 'vitest';
 
-import { renameFiles } from '../src/renameFiles.js';
+import { renameFiles } from '../src/index';
 
 const testDir = resolve('test-tmp', basename(import.meta.url));
 
@@ -38,9 +38,8 @@ test('renameFiles', async () => {
     true,
   );
 
-  expect(
-    await readFile(resolve(testDir, 'app-button', 'AppTab.tsx'), 'utf-8'),
-  ).toMatchInlineSnapshot(`
+  expect(await readFile(resolve(testDir, 'app-button', 'AppTab.tsx'), 'utf-8'))
+    .toMatchInlineSnapshot(`
     "import { useContext } from 'react';
 
     import { AppTabContext } from './AppTabContext';

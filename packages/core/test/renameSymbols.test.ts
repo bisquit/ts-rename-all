@@ -4,7 +4,7 @@ import { basename, resolve } from 'node:path';
 
 import { beforeEach, expect, test } from 'vitest';
 
-import { renameSymbols } from '../src/renameSymbols.js';
+import { renameSymbols } from '../src/index';
 
 const testDir = resolve('test-tmp', basename(import.meta.url));
 
