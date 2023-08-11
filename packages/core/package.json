@@ -1,7 +1,7 @@
 {
   "name": "@ts-rename-all/core",
   "description": "Once rename, then others are also renamed the same way.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
