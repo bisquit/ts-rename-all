@@ -9,10 +9,17 @@
   "engines": {
     "vscode": ">=1.80.0"
   },
-  "categories": [],
-  "keywords": [],
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "refactor",
+    "typescript"
+  ],
   "main": "./dist/client/extension.js",
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "commands": [
       {
@@ -23,6 +30,16 @@
       {
         "command": "ts-rename-all.renameFile",
         "title": "Rename file and all symbols in it",
+        "category": "TS Rename All"
+      },
+      {
+        "command": "ts-rename-all.renameFiles",
+        "title": "Rename all files in a directory and all symbols in the files",
+        "category": "TS Rename All"
+      },
+      {
+        "command": "ts-rename-all.renameDir",
+        "title": "Rename a directory name and all files in the directory and all symbols in the files",
         "category": "TS Rename All"
       }
     ],
@@ -37,25 +54,18 @@
         {
           "when": "!explorerResourceIsFolder",
           "command": "ts-rename-all.renameFile"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "ts-rename-all.renameFiles",
+          "group": "ts-rename-all@1"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "ts-rename-all.renameDir",
+          "group": "ts-rename-all@2"
         }
       ]
-    },
-    "configuration": {
-      "type": "object",
-      "title": "configuration",
-      "properties": {
-        "tsRenameAll.trace.server": {
-          "scope": "window",
-          "type": "string",
-          "enum": [
-            "off",
-            "messages",
-            "verbose"
-          ],
-          "default": "off",
-          "description": "Traces the communication between VS Code and the language server."
-        }
-      }
     }
   },
   "scripts": {
