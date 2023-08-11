@@ -1,37 +1,32 @@
 import { existsSync } from 'node:fs';
-import { cp, mkdir, readFile, rm } from 'node:fs/promises';
-import { basename, resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 import { beforeEach, expect, test } from 'vitest';
 
 import { renameDir } from '../src/index.js';
+import { setupFixture } from './test-utils.js';
 
-const testDir = resolve('test-tmp', basename(import.meta.url));
+const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
+  import.meta,
+);
 
 beforeEach(async () => {
-  if (existsSync(testDir)) {
-    await rm(testDir, { recursive: true, force: true });
-  }
-  await mkdir(testDir, { recursive: true });
-
-  await cp(resolve('./fixtures/app-button'), resolve(testDir, 'app-button'), {
-    force: true,
-    recursive: true,
-  });
+  await resetDir();
+  await copyFixture('app-button');
 });
 
 test('renameDir', async () => {
-  await renameDir(resolve(testDir, 'app-button'), {
+  await renameDir(resolveFixturePath('app-button'), {
     destDirName: 'app-tab',
   });
 
-  expect(existsSync(resolve(testDir, 'app-tab', 'AppTab.tsx'))).toBe(true);
-  expect(existsSync(resolve(testDir, 'app-tab', 'AppTabContext.tsx'))).toBe(
+  expect(existsSync(resolveFixturePath('app-tab', 'AppTab.tsx'))).toBe(true);
+  expect(existsSync(resolveFixturePath('app-tab', 'AppTabContext.tsx'))).toBe(
     true,
   );
-  expect(existsSync(resolve(testDir, 'app-tab', 'useAppTab.tsx'))).toBe(true);
+  expect(existsSync(resolveFixturePath('app-tab', 'useAppTab.tsx'))).toBe(true);
 
-  expect(await readFile(resolve(testDir, 'app-tab', 'AppTab.tsx'), 'utf-8'))
+  expect(await readFile(resolveFixturePath('app-tab', 'AppTab.tsx'), 'utf-8'))
     .toMatchInlineSnapshot(`
     "import { useContext } from 'react';
 
@@ -48,7 +43,7 @@ test('renameDir', async () => {
     "
   `);
   expect(
-    await readFile(resolve(testDir, 'app-tab', 'AppTabContext.tsx'), 'utf-8'),
+    await readFile(resolveFixturePath('app-tab', 'AppTabContext.tsx'), 'utf-8'),
   ).toMatchInlineSnapshot(`
     "import { createContext } from 'react';
 
@@ -59,8 +54,9 @@ test('renameDir', async () => {
     export const AppTabContext = createContext<AppTabContextValue>({});
     "
   `);
-  expect(await readFile(resolve(testDir, 'app-tab', 'useAppTab.tsx'), 'utf-8'))
-    .toMatchInlineSnapshot(`
+  expect(
+    await readFile(resolveFixturePath('app-tab', 'useAppTab.tsx'), 'utf-8'),
+  ).toMatchInlineSnapshot(`
     "import AppTab from './AppTab';
 
     export default function useAppTab() {

@@ -1,41 +1,37 @@
 import { existsSync } from 'node:fs';
-import { cp, mkdir, readFile, rm } from 'node:fs/promises';
-import { basename, resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 import { beforeEach, expect, test } from 'vitest';
 
 import { renameFiles } from '../src/index.js';
+import { setupFixture } from './test-utils.js';
 
-const testDir = resolve('test-tmp', basename(import.meta.url));
+const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
+  import.meta,
+);
 
 beforeEach(async () => {
-  if (existsSync(testDir)) {
-    await rm(testDir, { recursive: true, force: true });
-  }
-  await mkdir(testDir, { recursive: true });
-
-  await cp(resolve('./fixtures/app-button'), resolve(testDir, 'app-button'), {
-    force: true,
-    recursive: true,
-  });
+  await resetDir();
+  await copyFixture('app-button');
 });
 
 test('renameFiles', async () => {
-  await renameFiles(resolve(testDir, 'app-button'), {
+  await renameFiles(resolveFixturePath('app-button'), {
     srcFileNamePattern: 'Button',
     destFileNamePattern: 'Tab',
   });
 
-  expect(existsSync(resolve(testDir, 'app-button', 'AppTab.tsx'))).toBe(true);
-  expect(existsSync(resolve(testDir, 'app-button', 'AppTabContext.tsx'))).toBe(
-    true,
-  );
-  expect(existsSync(resolve(testDir, 'app-button', 'useAppTab.tsx'))).toBe(
+  expect(existsSync(resolveFixturePath('app-button', 'AppTab.tsx'))).toBe(true);
+  expect(
+    existsSync(resolveFixturePath('app-button', 'AppTabContext.tsx')),
+  ).toBe(true);
+  expect(existsSync(resolveFixturePath('app-button', 'useAppTab.tsx'))).toBe(
     true,
   );
 
-  expect(await readFile(resolve(testDir, 'app-button', 'AppTab.tsx'), 'utf-8'))
-    .toMatchInlineSnapshot(`
+  expect(
+    await readFile(resolveFixturePath('app-button', 'AppTab.tsx'), 'utf-8'),
+  ).toMatchInlineSnapshot(`
     "import { useContext } from 'react';
 
     import { AppTabContext } from './AppTabContext';
@@ -52,7 +48,7 @@ test('renameFiles', async () => {
   `);
   expect(
     await readFile(
-      resolve(testDir, 'app-button', 'AppTabContext.tsx'),
+      resolveFixturePath('app-button', 'AppTabContext.tsx'),
       'utf-8',
     ),
   ).toMatchInlineSnapshot(`
@@ -66,7 +62,7 @@ test('renameFiles', async () => {
     "
   `);
   expect(
-    await readFile(resolve(testDir, 'app-button', 'useAppTab.tsx'), 'utf-8'),
+    await readFile(resolveFixturePath('app-button', 'useAppTab.tsx'), 'utf-8'),
   ).toMatchInlineSnapshot(`
     "import AppTab from './AppTab';
 
