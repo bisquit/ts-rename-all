@@ -11,8 +11,8 @@ export default command(
     name: 'dir',
     parameters: ['<srcDirPath>', '[destDirName]'],
     help: {
-      description: 'Rename a file name and all symbols in the file.',
-      examples: ['ts-rename-all file src/AppButton.tsx'],
+      description: 'Rename a directory name and all symbols in the file.',
+      examples: ['ts-rename-all dir src/app-button'],
     },
   },
   async (argv) => {
