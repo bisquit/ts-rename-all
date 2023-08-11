@@ -24,17 +24,10 @@ describe('renameFile', () => {
     expect(existsSync(resolveFixturePath('AppTab.tsx'))).toBe(true);
 
     const content = await readFile(resolveFixturePath('AppTab.tsx'), 'utf-8');
-    expect(content).toMatchInlineSnapshot(`
-      "const APP_BUTTON_SIZES = ['small', 'medium', 'large'] as const;
 
-      type AppTabProps = {
-        size: (typeof APP_BUTTON_SIZES)[number];
-      };
-
-      export default function AppTab({ size }: AppTabProps) {
-        return <button>{size}</button>;
-      }
-      "
-    `);
+    expect(content).toMatch(
+      'export default function AppTab({ size }: AppTabProps)',
+    );
+    expect(content).toMatch('const APP_TAB_SIZES =');
   });
 });

@@ -32,6 +32,6 @@ describe('deriveSymbolChanges', () => {
       ],
     },
   ])('($before, $after)', ({ before, after, expected }) => {
-    expect(deriveSymbolChanges(before, after)).toEqual(expected);
+    expect(deriveSymbolChanges({ before, after })).toEqual(expected);
   });
 });

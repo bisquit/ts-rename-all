@@ -1,8 +1,9 @@
-import { camelCase, constantCase, noCase, pascalCase } from 'change-case';
+import { camelCase, constantCase, pascalCase } from 'change-case';
 
+import { dedupeChange } from './dedupeChange.js';
 import { Change } from './types.js';
 
-export function deriveSymbolChanges(before: string, after: string): Change[] {
+export function deriveSymbolChanges({ before, after }: Change): Change[] {
   const upperCamelChange = {
     before: pascalCase(before),
     after: pascalCase(after),
@@ -18,5 +19,5 @@ export function deriveSymbolChanges(before: string, after: string): Change[] {
     after: constantCase(after),
   };
 
-  return [upperCamelChange, lowerCamelChange, constantChange];
+  return dedupeChange([upperCamelChange, lowerCamelChange, constantChange]);
 }

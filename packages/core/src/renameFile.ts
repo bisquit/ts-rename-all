@@ -1,34 +1,38 @@
 import { getPathComponents } from '@ts-rename-all/shared';
 import { Project } from 'ts-morph';
 
+import { deriveSymbolChanges } from './derive-change/deriveSymbolChanges.js';
 import { renameFileName as _renameFilename } from './morph/renameFileName.js';
 import { renameSymbols as _renameSymbols } from './morph/renameSymbols.js';
-import { diffText } from './utils/diffText.js';
 
 export async function renameFile(
   srcFilePath: string,
   config: { destFileName: string; srcFileName?: string },
 ) {
-  const srcFileName =
-    config.srcFileName ?? getPathComponents(srcFilePath).filename;
-
-  const { before, after } = diffText(
-    getPathComponents(srcFileName).name,
-    getPathComponents(config.destFileName).name,
-  );
-
   const project = new Project({});
   const sourceFile = project.addSourceFileAtPath(srcFilePath);
+
+  const srcFileName =
+    config.srcFileName ?? getPathComponents(srcFilePath).filename;
 
   await _renameFilename(sourceFile, {
     srcSymbolPattern: srcFileName,
     destSymbolPattern: config.destFileName,
   });
 
-  await _renameSymbols(sourceFile, {
-    srcSymbolPattern: before ?? '',
-    destSymbolPattern: after ?? '',
+  // derive changes
+  const changes = deriveSymbolChanges({
+    before: getPathComponents(srcFileName).name,
+    after: getPathComponents(config.destFileName).name,
   });
+
+  // iterate changes and run morph.renameSymbols
+  for (const change of changes) {
+    await _renameSymbols(sourceFile, {
+      srcSymbolPattern: change.before,
+      destSymbolPattern: change.after,
+    });
+  }
 
   await project.save();
 }

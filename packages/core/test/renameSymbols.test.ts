@@ -18,8 +18,8 @@ beforeEach(async () => {
 describe('renameSymbols', () => {
   test('Button => Tab', async () => {
     await renameSymbols(resolveFixturePath('AppButton.tsx'), {
-      before: 'Button',
-      after: 'Tab',
+      srcSymbolPattern: 'Button',
+      destSymbolPattern: 'Tab',
     });
 
     const content = await readFile(
@@ -34,6 +34,30 @@ describe('renameSymbols', () => {
       };
 
       export default function AppTab({ size }: AppTabProps) {
+        return <button>{size}</button>;
+      }
+      "
+    `);
+  });
+
+  test('Button => InlineButton', async () => {
+    await renameSymbols(resolveFixturePath('AppButton.tsx'), {
+      srcSymbolPattern: 'Button',
+      destSymbolPattern: 'InlineButton',
+    });
+
+    const content = await readFile(
+      resolveFixturePath('AppButton.tsx'),
+      'utf-8',
+    );
+    expect(content).toMatchInlineSnapshot(`
+      "const APP_INLINE_BUTTON_SIZES = ['small', 'medium', 'large'] as const;
+
+      type AppInlineButtonProps = {
+        size: (typeof APP_INLINE_BUTTON_SIZES)[number];
+      };
+
+      export default function AppInlineButton({ size }: AppInlineButtonProps) {
         return <button>{size}</button>;
       }
       "

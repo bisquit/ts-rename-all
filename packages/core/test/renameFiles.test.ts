@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 
-import { beforeEach, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 
 import { renameFiles } from '../src/index.js';
 import { setupFixture } from './test-utils.js';
@@ -12,65 +12,35 @@ const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
 
 beforeEach(async () => {
   await resetDir();
-  await copyFixture('app-button');
+  await copyFixture('mixed-button');
 });
 
-test('renameFiles', async () => {
-  await renameFiles(resolveFixturePath('app-button'), {
-    srcFileNamePattern: 'Button',
-    destFileNamePattern: 'Tab',
+describe('renameFiles', () => {
+  test('button => tab', async () => {
+    await renameFiles(resolveFixturePath('mixed-button'), {
+      srcFileNamePattern: 'button',
+      destFileNamePattern: 'tab',
+    });
+
+    const fixturePath1 = resolveFixturePath(
+      'mixed-button',
+      'mixed_tab_type.ts',
+    );
+    expect(existsSync(fixturePath1)).toBe(true);
+    expect(await readFile(fixturePath1, 'utf-8')).toMatch(
+      'export const mixedTabType =',
+    );
+
+    const fixturePath2 = resolveFixturePath('mixed-button', 'MixedTab.tsx');
+    expect(existsSync(fixturePath2)).toBe(true);
+    expect(await readFile(fixturePath2, 'utf-8')).toMatch(
+      'export default function MixedTab({ type }: MixedTabProps)',
+    );
+
+    const fixturePath3 = resolveFixturePath('mixed-button', 'use-mixed-tab.ts');
+    expect(existsSync(fixturePath3)).toBe(true);
+    expect(await readFile(fixturePath3, 'utf-8')).toMatch(
+      'export function useMixedTab()',
+    );
   });
-
-  expect(existsSync(resolveFixturePath('app-button', 'AppTab.tsx'))).toBe(true);
-  expect(
-    existsSync(resolveFixturePath('app-button', 'AppTabContext.tsx')),
-  ).toBe(true);
-  expect(existsSync(resolveFixturePath('app-button', 'useAppTab.tsx'))).toBe(
-    true,
-  );
-
-  expect(
-    await readFile(resolveFixturePath('app-button', 'AppTab.tsx'), 'utf-8'),
-  ).toMatchInlineSnapshot(`
-    "import { useContext } from 'react';
-
-    import { AppTabContext } from './AppTabContext';
-
-    type AppTabProps = {
-      size?: string;
-    };
-
-    export default function AppTab({ size }: AppTabProps) {
-      const context = useContext(AppTabContext);
-      return <button {...context}>{size}</button>;
-    }
-    "
-  `);
-  expect(
-    await readFile(
-      resolveFixturePath('app-button', 'AppTabContext.tsx'),
-      'utf-8',
-    ),
-  ).toMatchInlineSnapshot(`
-    "import { createContext } from 'react';
-
-    type AppTabContextValue = {
-      title?: string;
-    };
-
-    export const AppTabContext = createContext<AppTabContextValue>({});
-    "
-  `);
-  expect(
-    await readFile(resolveFixturePath('app-button', 'useAppTab.tsx'), 'utf-8'),
-  ).toMatchInlineSnapshot(`
-    "import AppTab from './AppTab';
-
-    export default function useAppTab() {
-      return {
-        component: <AppTab />,
-      };
-    }
-    "
-  `);
 });

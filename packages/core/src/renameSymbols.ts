@@ -5,13 +5,16 @@ import { renameSymbols as _renameSymbols } from './morph/renameSymbols.js';
 
 export async function renameSymbols(
   srcFilePath: string,
-  config: { before: string; after: string },
+  config: { srcSymbolPattern: string; destSymbolPattern: string },
 ) {
   const project = new Project({});
   const sourceFile = project.addSourceFileAtPath(srcFilePath);
 
   // derive changes
-  const changes = deriveSymbolChanges(config.before, config.after);
+  const changes = deriveSymbolChanges({
+    before: config.srcSymbolPattern,
+    after: config.destSymbolPattern,
+  });
 
   // iterate changes and run morph.renameSymbols
   for (const change of changes) {
