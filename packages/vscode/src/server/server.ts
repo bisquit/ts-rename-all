@@ -1,9 +1,8 @@
 import { renameSymbols } from '@ts-rename-all/core';
-import * as vscode from 'vscode';
 import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
 
-// Create a connection for the server, using Node's IPC as a transport.
-// Also include all preview / proposed LSP features.
+import { RenameSymbolsRequestType } from '../shared/requests';
+
 const connection = createConnection(ProposedFeatures.all);
 
 connection.onInitialize(() => {
@@ -12,28 +11,12 @@ connection.onInitialize(() => {
   };
 });
 
-connection.onExecuteCommand(async (params) => {
-  console.log('onExecuteCommand', params);
-
-  if (params.command === 'ts-rename-all.renameSymbols') {
-    const arg = params.arguments?.at(0) as {
-      srcFilePath: string;
-      srcSymbolPattern: string;
-      destSymbolPattern: string;
-    };
-    console.log('arg', arg);
-
-    await renameSymbols(arg.srcFilePath, {
-      srcSymbolPattern: arg.srcSymbolPattern,
-      destSymbolPattern: arg.destSymbolPattern,
-    });
-  }
-
-  if (params.command === 'ts-rename-all.sample') {
-    const arg = params.arguments?.at(0) as vscode.Uri;
-    console.log('arg', arg);
-  }
+connection.onRequest(RenameSymbolsRequestType, async (params) => {
+  const { srcFilePath, srcSymbolPattern, destSymbolPattern } = params;
+  await renameSymbols(srcFilePath, {
+    srcSymbolPattern: srcSymbolPattern,
+    destSymbolPattern: destSymbolPattern,
+  });
 });
 
-// Listen on the connection
 connection.listen();

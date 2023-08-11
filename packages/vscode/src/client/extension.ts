@@ -1,6 +1,5 @@
 import * as path from 'node:path';
 
-import { ExtensionContext, workspace } from 'vscode';
 import * as vscode from 'vscode';
 import {
   ExecuteCommandRequest,
@@ -10,33 +9,31 @@ import {
   TransportKind,
 } from 'vscode-languageclient/node';
 
+import {
+  RenameSymbolsRequestParams,
+  RenameSymbolsRequestType,
+} from '../shared/requests';
+import { success } from './utils';
+
 let client: LanguageClient;
 
-export async function activate(context: ExtensionContext) {
-  // The server is implemented in node
+export async function activate(context: vscode.ExtensionContext) {
   const serverModule = context.asAbsolutePath(
     path.join('dist', 'server', 'server.js'),
   );
 
-  // If the extension is launched in debug mode then the debug server options are used
-  // Otherwise the run options are used
   const serverOptions: ServerOptions = {
     run: { module: serverModule, transport: TransportKind.ipc },
     debug: {
       module: serverModule,
       transport: TransportKind.ipc,
-      // options: {
-      //   execArgv: ['--nolazy', '--inspect=6009'],
-      // },
     },
   };
 
-  // Options to control the language client
   const clientOptions: LanguageClientOptions = {
     outputChannelName: 'TS Rename All',
   };
 
-  // Create the language client and start the client.
   client = new LanguageClient(
     'tsRenameAll',
     'TS Rename All',
@@ -44,7 +41,6 @@ export async function activate(context: ExtensionContext) {
     clientOptions,
   );
 
-  // Start the client. This will also launch the server
   await client.start();
 
   context.subscriptions.push(
@@ -68,28 +64,30 @@ export async function activate(context: ExtensionContext) {
         value: currentSymbolName,
       });
 
+      if (!destSymbolName || destSymbolName === currentSymbolName) {
+        return;
+      }
+
       // TODO: extract pattern
 
-      await client.sendRequest(ExecuteCommandRequest.type, {
-        command: 'ts-rename-all.renameSymbols',
-        arguments: [
-          {
-            srcFilePath: filePath,
-            srcSymbolPattern: currentSymbolName,
-            destSymbolPattern: destSymbolName,
-          },
-        ],
-      });
+      const params: RenameSymbolsRequestParams = {
+        srcFilePath: filePath,
+        srcSymbolPattern: currentSymbolName,
+        destSymbolPattern: destSymbolName,
+      };
+      await client.sendRequest(RenameSymbolsRequestType, params);
+
+      success();
     }),
     vscode.commands.registerCommand(
-      'ts-rename-all.renameAll',
+      'ts-rename-all.renameFile',
       async (uri?: vscode.Uri) => {
         console.log('uri', uri);
 
-        await client.sendRequest(ExecuteCommandRequest.type, {
-          command: 'ts-rename-all.sample',
-          arguments: [uri],
-        });
+        // await client.sendRequest(ExecuteCommandRequest.type, {
+        //   command: 'ts-rename-all.sample',
+        //   arguments: [uri],
+        // });
       },
     ),
   );

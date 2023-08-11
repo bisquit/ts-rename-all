@@ -21,8 +21,8 @@
         "category": "TS Rename All"
       },
       {
-        "command": "ts-rename-all.renameAll",
-        "title": "Rename all symbols",
+        "command": "ts-rename-all.renameFile",
+        "title": "Rename file and all symbols in it",
         "category": "TS Rename All"
       }
     ],
@@ -35,7 +35,8 @@
       ],
       "explorer/context": [
         {
-          "command": "ts-rename-all.renameAll"
+          "when": "!explorerResourceIsFolder",
+          "command": "ts-rename-all.renameFile"
         }
       ]
     },
@@ -72,6 +73,7 @@
   "dependencies": {
     "@ts-rename-all/core": "workspace:*",
     "@ts-rename-all/shared": "workspace:*",
+    "vscode-jsonrpc": "^8.1.0",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver": "^8.1.0"
   },
