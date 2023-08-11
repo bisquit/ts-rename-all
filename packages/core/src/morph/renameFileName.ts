@@ -6,8 +6,10 @@ export async function renameFileName(
 ) {
   const { srcSymbolPattern, destSymbolPattern } = config;
 
-  const destFileName = sourceFile
-    .getBaseName()
-    .replace(srcSymbolPattern, destSymbolPattern);
-  sourceFile.move(destFileName);
+  const srcFileName = sourceFile.getBaseName();
+  const destFileName = srcFileName.replace(srcSymbolPattern, destSymbolPattern);
+
+  if (srcFileName !== destFileName) {
+    sourceFile.move(destFileName);
+  }
 }

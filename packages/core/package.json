@@ -27,7 +27,7 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "test:coverage": "vitest --coverage.enabled --coverage.provider=v8 --coverage.all --coverage.clean",
+    "test:coverage": "vitest --coverage.enabled --coverage.provider=v8 --coverage.include=src --coverage.all --coverage.clean",
     "test:ci": "pnpm run test:coverage --run"
   },
   "dependencies": {
