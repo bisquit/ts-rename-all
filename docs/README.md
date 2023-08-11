@@ -8,25 +8,25 @@ pnpm add -g @ts-rename-all/cli
 
 ### Usage
 
-#### Rename all symbols in a file
+Rename all symbols in a file:
 
 ```sh
 ts-rename-all symbols src/AppButton.tsx
 ```
 
-#### Rename a file name and all symbols in the file
+Rename a file name and all symbols in the file:
 
 ```sh
 ts-rename-all file src/AppButton.tsx
 ```
 
-#### Rename all files in a directory and all symbols in the files
+Rename all files in a directory and all symbols in the files:
 
 ```sh
 ts-rename-all files src/app-button
 ```
 
-#### Rename a directory name and all files in the directory and all symbols in the files
+Rename a directory name and all files in the directory and all symbols in the files:
 
 ```sh
 ts-rename-all dir src/app-button
