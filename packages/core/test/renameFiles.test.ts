@@ -4,7 +4,7 @@ import { basename, resolve } from 'node:path';
 
 import { beforeEach, expect, test } from 'vitest';
 
-import { renameFiles } from '../src/index';
+import { renameFiles } from '../src/index.js';
 
 const testDir = resolve('test-tmp', basename(import.meta.url));
 
@@ -14,14 +14,10 @@ beforeEach(async () => {
   }
   await mkdir(testDir, { recursive: true });
 
-  await cp(
-    resolve('../../fixtures/app-button'),
-    resolve(testDir, 'app-button'),
-    {
-      force: true,
-      recursive: true,
-    },
-  );
+  await cp(resolve('./fixtures/app-button'), resolve(testDir, 'app-button'), {
+    force: true,
+    recursive: true,
+  });
 });
 
 test('renameFiles', async () => {
