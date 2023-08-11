@@ -6,6 +6,7 @@
   "version": "0.4.1",
   "license": "MIT",
   "publisher": "bisquit",
+  "icon": "assets/icon.png",
   "engines": {
     "vscode": ">=1.80.0"
   },
