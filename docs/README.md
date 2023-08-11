@@ -32,6 +32,10 @@ ts-rename-all files src/app-button
 ts-rename-all dir src/app-button
 ```
 
+## VSCode Extension
+
+https://marketplace.visualstudio.com/items?itemName=bisquit.vscode-ts-rename-all
+
 ## Node.js API Reference
 
 ### Install
