@@ -4,15 +4,20 @@ import { Directory } from 'ts-morph';
 
 export async function renameDirName(
   directory: Directory,
-  config: { srcSymbolPattern: string; destSymbolPattern: string },
+  config:
+    | { destDirName: string }
+    | { srcSymbolPattern: string; destSymbolPattern: string },
 ) {
-  const { srcSymbolPattern, destSymbolPattern } = config;
+  const srcDirName = directory.getBaseName();
 
-  const destDirName = directory
-    .getBaseName()
-    .replace(srcSymbolPattern, destSymbolPattern);
+  let destDirName: string;
+  if ('destDirName' in config) {
+    destDirName = config.destDirName;
+  } else {
+    const { srcSymbolPattern, destSymbolPattern } = config;
+    destDirName = srcDirName.replace(srcSymbolPattern, destSymbolPattern);
+  }
 
   const destDirPath = resolve(directory.getPath(), '..', destDirName);
-
   directory.move(destDirPath);
 }

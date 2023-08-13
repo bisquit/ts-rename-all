@@ -16,8 +16,7 @@ export async function renameFile(
     config.srcFileName ?? getPathComponents(srcFilePath).filename;
 
   await _renameFilename(sourceFile, {
-    srcSymbolPattern: srcFileName,
-    destSymbolPattern: config.destFileName,
+    destFileName: config.destFileName,
   });
 
   // derive changes

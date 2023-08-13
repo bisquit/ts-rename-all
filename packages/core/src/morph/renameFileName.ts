@@ -2,12 +2,19 @@ import { SourceFile } from 'ts-morph';
 
 export async function renameFileName(
   sourceFile: SourceFile,
-  config: { srcSymbolPattern: string; destSymbolPattern: string },
+  config:
+    | { destFileName: string }
+    | { srcSymbolPattern: string; destSymbolPattern: string },
 ) {
-  const { srcSymbolPattern, destSymbolPattern } = config;
-
   const srcFileName = sourceFile.getBaseName();
-  const destFileName = srcFileName.replace(srcSymbolPattern, destSymbolPattern);
+
+  let destFileName: string;
+  if ('destFileName' in config) {
+    destFileName = config.destFileName;
+  } else {
+    const { srcSymbolPattern, destSymbolPattern } = config;
+    destFileName = srcFileName.replace(srcSymbolPattern, destSymbolPattern);
+  }
 
   if (srcFileName !== destFileName) {
     sourceFile.move(destFileName);

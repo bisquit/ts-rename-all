@@ -35,11 +35,15 @@ export default (client: LanguageClient) =>
           return;
         }
 
+        // trim ' copy', which is added by vscode
+        // this is an arbitrary manipulation, but it is common usecase that a user copies a file and rename it.
+        const srcFileName = filename.replace(/ copy/, '');
+
         await progress('Renaming...', async () => {
           const params: RenameFileRequestParams = {
             srcFilePath: uri.path,
             destFileName: destFileName,
-            srcFileName: filename,
+            srcFileName: srcFileName,
           };
           const error = await client.sendRequest(RenameFileRequestType, params);
           if (error) {

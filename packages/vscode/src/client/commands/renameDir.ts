@@ -34,11 +34,15 @@ export default (client: LanguageClient) =>
           return;
         }
 
+        // trim ' copy', which is added by vscode
+        // this is an arbitrary manipulation, but it is common usecase that a user copies a directory and rename it.
+        const srcDirName = dirname.replace(/ copy/, '');
+
         await progress('Renaming...', async () => {
           const params: RenameDirRequestParams = {
             srcDirPath: uri.path,
             destDirName,
-            srcDirName: dirname,
+            srcDirName: srcDirName,
           };
           const error = await client.sendRequest(RenameDirRequestType, params);
           if (error) {

@@ -23,8 +23,7 @@ export async function renameDir(
   }
 
   await _renameDirName(rootDir, {
-    srcSymbolPattern: srcDirName,
-    destSymbolPattern: config.destDirName,
+    destDirName: config.destDirName,
   });
 
   for (const sourceFile of project.getSourceFiles()) {
