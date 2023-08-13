@@ -5,7 +5,9 @@ import {
   RenameSymbolsRequestParams,
   RenameSymbolsRequestType,
 } from '../../shared/requests';
+import { progress } from '../utils/progress';
 import { success } from '../utils/success';
+import { validateRequired } from '../utils/validateRequired';
 
 export default (client: LanguageClient) =>
   vscode.commands.registerCommand('ts-rename-all.renameSymbols', async () => {
@@ -16,30 +18,35 @@ export default (client: LanguageClient) =>
 
     const filePath = editor.document.uri.path;
 
-    const currentPosition = editor.selection.active;
-    const currentSymbolName = currentPosition
-      ? editor.document.getText(
-          editor.document.getWordRangeAtPosition(currentPosition),
-        )
-      : '';
-
-    const destSymbolName = await vscode.window.showInputBox({
-      title: 'Type a new name',
-      value: currentSymbolName,
+    const srcSymbolPattern = await vscode.window.showInputBox({
+      prompt: 'Type a symbol pattarn to rename',
+      validateInput: (value) => {
+        return validateRequired(value);
+      },
     });
-
-    if (!destSymbolName || destSymbolName === currentSymbolName) {
+    if (!srcSymbolPattern) {
       return;
     }
 
-    // TODO: extract pattern
+    const destSymbolPattern = await vscode.window.showInputBox({
+      prompt: `Rename ${srcSymbolPattern} to...`,
+      value: srcSymbolPattern,
+      validateInput: (value) => {
+        return validateRequired(value);
+      },
+    });
+    if (!destSymbolPattern) {
+      return;
+    }
 
-    const params: RenameSymbolsRequestParams = {
-      srcFilePath: filePath,
-      srcSymbolPattern: currentSymbolName,
-      destSymbolPattern: destSymbolName,
-    };
-    await client.sendRequest(RenameSymbolsRequestType, params);
+    await progress('Renaming...', async () => {
+      const params: RenameSymbolsRequestParams = {
+        srcFilePath: filePath,
+        srcSymbolPattern: srcSymbolPattern,
+        destSymbolPattern: destSymbolPattern,
+      };
+      await client.sendRequest(RenameSymbolsRequestType, params);
+    });
 
-    success();
+    await success();
   });

@@ -6,7 +6,10 @@ import {
   RenameDirRequestParams,
   RenameDirRequestType,
 } from '../../shared/requests';
+import { progress } from '../utils/progress';
 import { success } from '../utils/success';
+import { validateChanged } from '../utils/validateChanged';
+import { validateRequired } from '../utils/validateRequired';
 
 export default (client: LanguageClient) =>
   vscode.commands.registerCommand(
@@ -19,21 +22,25 @@ export default (client: LanguageClient) =>
       const { filename: dirname } = getPathComponents(uri.path);
 
       const destDirName = await vscode.window.showInputBox({
-        title: 'Type a new directory name',
+        prompt: 'Type a new directory name',
         value: dirname,
+        validateInput: (value) => {
+          return validateRequired(value) || validateChanged(value, dirname);
+        },
       });
-
       if (!destDirName) {
         return;
       }
 
-      const params: RenameDirRequestParams = {
-        srcDirPath: uri.path,
-        destDirName,
-        srcDirName: dirname,
-      };
-      await client.sendRequest(RenameDirRequestType, params);
+      await progress('Renaming...', async () => {
+        const params: RenameDirRequestParams = {
+          srcDirPath: uri.path,
+          destDirName,
+          srcDirName: dirname,
+        };
+        await client.sendRequest(RenameDirRequestType, params);
+      });
 
-      success();
+      await success();
     },
   );
