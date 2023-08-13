@@ -4,7 +4,13 @@ import { getPathComponents } from '@ts-rename-all/shared';
 import { command } from 'cleye';
 
 import { cancellable } from '../utils/cancellable.js';
+import { catchError } from '../utils/catchError.js';
+import { checkFsExists } from '../utils/checkFsExists.js';
+import { checkFsIsDirectory } from '../utils/checkFsIsDirectory.js';
+import { progress } from '../utils/progress.js';
 import { success } from '../utils/success.js';
+import { validateChanged } from '../utils/validateChanged.js';
+import { validateRequired } from '../utils/validateRequired.js';
 
 export default command(
   {
@@ -16,29 +22,36 @@ export default command(
     },
   },
   async (argv) => {
-    const { filename: dirname } = getPathComponents(argv._.srcDirPath);
+    await catchError(async () => {
+      const srcDirPath = argv._.srcDirPath;
+      await checkFsExists(srcDirPath);
+      await checkFsIsDirectory(srcDirPath);
 
-    const destDirName =
-      argv._.destDirName ??
-      (await cancellable(
-        text({
-          message: 'Type a new directory name',
-          initialValue: dirname,
-          validate: (value) => {
-            if (value === '') {
-              return 'Directory name is required.';
-            }
-            if (value === dirname) {
-              return 'Directory name is not changed.';
-            }
-          },
-        }),
-      ));
+      const { filename: dirname } = getPathComponents(srcDirPath);
 
-    await renameDir(argv._.srcDirPath, {
-      destDirName: destDirName,
+      const destDirName =
+        argv._.destDirName ??
+        (await cancellable(
+          text({
+            message: 'Type a new directory name',
+            initialValue: dirname,
+            validate: (value) => {
+              return validateRequired(value) || validateChanged(value, dirname);
+            },
+          }),
+        ));
+
+      await progress(
+        'Renaming...',
+        async () => {
+          await renameDir(srcDirPath, {
+            destDirName: destDirName,
+          });
+        },
+        `Renamed ${dirname} => ${destDirName}`,
+      );
+
+      await success();
     });
-
-    success();
   },
 );

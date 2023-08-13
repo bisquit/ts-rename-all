@@ -14,5 +14,5 @@ module.exports = {
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
   },
-  ignorePatterns: ['**/fixtures/**/*'],
+  ignorePatterns: ['**/fixtures/**/*', '**/tmp/**/*'],
 };
