@@ -7,6 +7,31 @@ export async function renameSymbols(
 ) {
   const { srcSymbolPattern, destSymbolPattern } = config;
 
+  // rename each symbols
+  // see https://ts-morph.com/details/index
+
+  // classes
+  const classes = sourceFile.getClasses();
+  for (const cls of classes) {
+    const name = cls.getName();
+    if (name?.includes(srcSymbolPattern)) {
+      const renamed = name.replace(srcSymbolPattern, destSymbolPattern);
+      debug(`class: ${name} -> ${renamed}`);
+      cls.rename(renamed);
+    }
+  }
+
+  // enums
+  const enums = sourceFile.getEnums();
+  for (const enm of enums) {
+    const name = enm.getName();
+    if (name?.includes(srcSymbolPattern)) {
+      const renamed = name.replace(srcSymbolPattern, destSymbolPattern);
+      debug(`enum: ${name} -> ${renamed}`);
+      enm.rename(renamed);
+    }
+  }
+
   // functions
   const functions = sourceFile.getFunctions();
   for (const fn of functions) {
@@ -15,6 +40,28 @@ export async function renameSymbols(
       const renamed = name.replace(srcSymbolPattern, destSymbolPattern);
       debug(`function: ${name} -> ${renamed}`);
       fn.rename(renamed);
+    }
+  }
+
+  // interfaces
+  const interfaces = sourceFile.getInterfaces();
+  for (const itf of interfaces) {
+    const name = itf.getName();
+    if (name?.includes(srcSymbolPattern)) {
+      const renamed = name.replace(srcSymbolPattern, destSymbolPattern);
+      debug(`interface: ${name} -> ${renamed}`);
+      itf.rename(renamed);
+    }
+  }
+
+  // modules
+  const modules = sourceFile.getModules();
+  for (const mdl of modules) {
+    const name = mdl.getName();
+    if (name?.includes(srcSymbolPattern)) {
+      const renamed = name.replace(srcSymbolPattern, destSymbolPattern);
+      debug(`module: ${name} -> ${renamed}`);
+      mdl.rename(renamed);
     }
   }
 

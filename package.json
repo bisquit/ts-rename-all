@@ -50,7 +50,10 @@
       "@typescript-eslint/no-non-null-assertion": 0,
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn"
-    }
+    },
+    "eslintIgnore": [
+      "**/fixtures/**/*"
+    ]
   },
   "config": {
     "commitizen": {
