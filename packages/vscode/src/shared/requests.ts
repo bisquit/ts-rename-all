@@ -1,5 +1,7 @@
 import { RequestType } from 'vscode-jsonrpc/node';
 
+type ErrorType = string | undefined;
+
 export type RenameSymbolsRequestParams = {
   srcFilePath: string;
   srcSymbolPattern: string;
@@ -7,7 +9,7 @@ export type RenameSymbolsRequestParams = {
 };
 export const RenameSymbolsRequestType = new RequestType<
   RenameSymbolsRequestParams,
-  void,
+  ErrorType,
   void
 >('ts-rename-all/renameSymbols');
 
@@ -18,7 +20,7 @@ export type RenameFileRequestParams = {
 };
 export const RenameFileRequestType = new RequestType<
   RenameFileRequestParams,
-  void,
+  ErrorType,
   void
 >('ts-rename-all/renameFile');
 
@@ -29,7 +31,7 @@ export type RenameFilesRequestParams = {
 };
 export const RenameFilesRequestType = new RequestType<
   RenameFilesRequestParams,
-  void,
+  ErrorType,
   void
 >('ts-rename-all/renameFiles');
 
@@ -40,6 +42,6 @@ export type RenameDirRequestParams = {
 };
 export const RenameDirRequestType = new RequestType<
   RenameDirRequestParams,
-  void,
+  ErrorType,
   void
 >('ts-rename-all/renameDir');

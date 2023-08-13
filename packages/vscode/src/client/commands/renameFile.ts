@@ -6,6 +6,7 @@ import {
   RenameFileRequestParams,
   RenameFileRequestType,
 } from '../../shared/requests';
+import { catchError } from '../utils/catchError';
 import { progress } from '../utils/progress';
 import { success } from '../utils/success';
 import { validateChanged } from '../utils/validateChanged';
@@ -15,33 +16,38 @@ export default (client: LanguageClient) =>
   vscode.commands.registerCommand(
     'ts-rename-all.renameFile',
     async (uri?: vscode.Uri) => {
-      if (!uri) {
-        return;
-      }
+      await catchError(async () => {
+        if (!uri) {
+          return;
+        }
 
-      const { filename, name } = getPathComponents(uri.path);
+        const { filename, name } = getPathComponents(uri.path);
 
-      const destFileName = await vscode.window.showInputBox({
-        prompt: 'Type a new file name',
-        value: filename,
-        valueSelection: [0, name.length],
-        validateInput: (value) => {
-          return validateRequired(value) || validateChanged(value, filename);
-        },
+        const destFileName = await vscode.window.showInputBox({
+          prompt: 'Type a new file name',
+          value: filename,
+          valueSelection: [0, name.length],
+          validateInput: (value) => {
+            return validateRequired(value) || validateChanged(value, filename);
+          },
+        });
+        if (!destFileName) {
+          return;
+        }
+
+        await progress('Renaming...', async () => {
+          const params: RenameFileRequestParams = {
+            srcFilePath: uri.path,
+            destFileName: destFileName,
+            srcFileName: filename,
+          };
+          const error = await client.sendRequest(RenameFileRequestType, params);
+          if (error) {
+            throw new Error(error);
+          }
+        });
+
+        await success();
       });
-      if (!destFileName) {
-        return;
-      }
-
-      await progress('Renaming...', async () => {
-        const params: RenameFileRequestParams = {
-          srcFilePath: uri.path,
-          destFileName: destFileName,
-          srcFileName: filename,
-        };
-        await client.sendRequest(RenameFileRequestType, params);
-      });
-
-      await success();
     },
   );

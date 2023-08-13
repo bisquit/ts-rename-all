@@ -6,6 +6,7 @@ import {
   RenameDirRequestParams,
   RenameDirRequestType,
 } from '../../shared/requests';
+import { catchError } from '../utils/catchError';
 import { progress } from '../utils/progress';
 import { success } from '../utils/success';
 import { validateChanged } from '../utils/validateChanged';
@@ -15,32 +16,37 @@ export default (client: LanguageClient) =>
   vscode.commands.registerCommand(
     'ts-rename-all.renameDir',
     async (uri?: vscode.Uri) => {
-      if (!uri) {
-        return;
-      }
+      await catchError(async () => {
+        if (!uri) {
+          return;
+        }
 
-      const { filename: dirname } = getPathComponents(uri.path);
+        const { filename: dirname } = getPathComponents(uri.path);
 
-      const destDirName = await vscode.window.showInputBox({
-        prompt: 'Type a new directory name',
-        value: dirname,
-        validateInput: (value) => {
-          return validateRequired(value) || validateChanged(value, dirname);
-        },
+        const destDirName = await vscode.window.showInputBox({
+          prompt: 'Type a new directory name',
+          value: dirname,
+          validateInput: (value) => {
+            return validateRequired(value) || validateChanged(value, dirname);
+          },
+        });
+        if (!destDirName) {
+          return;
+        }
+
+        await progress('Renaming...', async () => {
+          const params: RenameDirRequestParams = {
+            srcDirPath: uri.path,
+            destDirName,
+            srcDirName: dirname,
+          };
+          const error = await client.sendRequest(RenameDirRequestType, params);
+          if (error) {
+            throw new Error(error);
+          }
+        });
+
+        await success();
       });
-      if (!destDirName) {
-        return;
-      }
-
-      await progress('Renaming...', async () => {
-        const params: RenameDirRequestParams = {
-          srcDirPath: uri.path,
-          destDirName,
-          srcDirName: dirname,
-        };
-        await client.sendRequest(RenameDirRequestType, params);
-      });
-
-      await success();
     },
   );
