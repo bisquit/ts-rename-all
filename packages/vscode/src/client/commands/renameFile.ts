@@ -6,7 +6,10 @@ import {
   RenameFileRequestParams,
   RenameFileRequestType,
 } from '../../shared/requests';
+import { progress } from '../utils/progress';
 import { success } from '../utils/success';
+import { validateChanged } from '../utils/validateChanged';
+import { validateRequired } from '../utils/validateRequired';
 
 export default (client: LanguageClient) =>
   vscode.commands.registerCommand(
@@ -16,24 +19,29 @@ export default (client: LanguageClient) =>
         return;
       }
 
-      const { filename } = getPathComponents(uri.path);
+      const { filename, name } = getPathComponents(uri.path);
 
       const destFileName = await vscode.window.showInputBox({
-        title: 'Type a new file name',
+        prompt: 'Type a new file name',
         value: filename,
+        valueSelection: [0, name.length],
+        validateInput: (value) => {
+          return validateRequired(value) || validateChanged(value, filename);
+        },
       });
-
       if (!destFileName) {
         return;
       }
 
-      const params: RenameFileRequestParams = {
-        srcFilePath: uri.path,
-        destFileName: destFileName,
-        srcFileName: filename,
-      };
-      await client.sendRequest(RenameFileRequestType, params);
+      await progress('Renaming...', async () => {
+        const params: RenameFileRequestParams = {
+          srcFilePath: uri.path,
+          destFileName: destFileName,
+          srcFileName: filename,
+        };
+        await client.sendRequest(RenameFileRequestType, params);
+      });
 
-      success();
+      await success();
     },
   );

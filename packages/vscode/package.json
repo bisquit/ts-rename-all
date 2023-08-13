@@ -45,25 +45,43 @@
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "ts-rename-all.renameSymbols",
+          "when": "editorLangId == typescript || editorLangId == typescriptreact"
+        },
+        {
+          "command": "ts-rename-all.renameFile",
+          "when": "false"
+        },
+        {
+          "command": "ts-rename-all.renameFiles",
+          "when": "false"
+        },
+        {
+          "command": "ts-rename-all.renameDir",
+          "when": "false"
+        }
+      ],
       "editor/context": [
         {
-          "when": "editorLangId == typescript || editorLangId == typescriptreact",
-          "command": "ts-rename-all.renameSymbols"
+          "command": "ts-rename-all.renameSymbols",
+          "when": "editorLangId == typescript || editorLangId == typescriptreact"
         }
       ],
       "explorer/context": [
         {
-          "when": "!explorerResourceIsFolder",
-          "command": "ts-rename-all.renameFile"
+          "command": "ts-rename-all.renameFile",
+          "when": "!explorerResourceIsFolder"
         },
         {
-          "when": "explorerResourceIsFolder",
           "command": "ts-rename-all.renameFiles",
+          "when": "explorerResourceIsFolder",
           "group": "ts-rename-all@1"
         },
         {
-          "when": "explorerResourceIsFolder",
           "command": "ts-rename-all.renameDir",
+          "when": "explorerResourceIsFolder",
           "group": "ts-rename-all@2"
         }
       ]
