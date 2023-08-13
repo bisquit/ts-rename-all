@@ -1,15 +1,8 @@
-import {
-  renameDir,
-  renameFile,
-  renameFiles,
-  renameSymbols,
-} from '@ts-rename-all/core';
+import { renameAll, renameSymbols } from '@ts-rename-all/core';
 import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
 
 import {
-  RenameDirRequestType,
-  RenameFileRequestType,
-  RenameFilesRequestType,
+  RenameAllRequestType,
   RenameSymbolsRequestType,
 } from '../shared/requests';
 
@@ -22,9 +15,9 @@ connection.onInitialize(() => {
 });
 
 connection.onRequest(RenameSymbolsRequestType, async (params) => {
-  const { srcFilePath, srcSymbolPattern, destSymbolPattern } = params;
+  const { srcPaths, srcSymbolPattern, destSymbolPattern } = params;
   try {
-    await renameSymbols(srcFilePath, {
+    await renameSymbols(srcPaths, {
       srcSymbolPattern: srcSymbolPattern,
       destSymbolPattern: destSymbolPattern,
     });
@@ -33,36 +26,13 @@ connection.onRequest(RenameSymbolsRequestType, async (params) => {
   }
 });
 
-connection.onRequest(RenameFileRequestType, async (params) => {
-  const { srcFilePath, destFileName, srcFileName } = params;
+connection.onRequest(RenameAllRequestType, async (params) => {
+  const { srcPaths, srcSymbolPattern, destSymbolPattern } = params;
   try {
-    await renameFile(srcFilePath, {
-      destFileName,
-      srcFileName,
-    });
-  } catch (e) {
-    return (e as Error).message;
-  }
-});
-
-connection.onRequest(RenameFilesRequestType, async (params) => {
-  const { dirPath, srcFileNamePattern, destFileNamePattern } = params;
-  try {
-    await renameFiles(dirPath, {
-      srcFileNamePattern,
-      destFileNamePattern,
-    });
-  } catch (e) {
-    return (e as Error).message;
-  }
-});
-
-connection.onRequest(RenameDirRequestType, async (params) => {
-  const { srcDirPath, destDirName, srcDirName } = params;
-  try {
-    await renameDir(srcDirPath, {
-      destDirName,
-      srcDirName,
+    // todo: before hook for copy
+    await renameAll(srcPaths, {
+      srcSymbolPattern: srcSymbolPattern,
+      destSymbolPattern: destSymbolPattern,
     });
   } catch (e) {
     return (e as Error).message;

@@ -2,8 +2,10 @@ import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient/node';
 
 import {
-  RenameFilesRequestParams,
-  RenameFilesRequestType,
+  RenameAllRequestParams,
+  RenameAllRequestType,
+  RenameSymbolsRequestParams,
+  RenameSymbolsRequestType,
 } from '../../shared/requests';
 import { catchError } from '../utils/catchError';
 import { progress } from '../utils/progress';
@@ -12,44 +14,43 @@ import { validateRequired } from '../utils/validateRequired';
 
 export default (client: LanguageClient) =>
   vscode.commands.registerCommand(
-    'ts-rename-all.renameFiles',
-    async (uri?: vscode.Uri) => {
+    'ts-rename-all.renameAll',
+    async (_, argUris?: vscode.Uri[]) => {
       await catchError(async () => {
-        if (!uri) {
+        if (!argUris) {
           return;
         }
 
-        const srcFileNamePattern = await vscode.window.showInputBox({
-          prompt: 'Type a filename pattarn to rename',
+        const srcPaths = argUris.map((uri) => uri.path);
+
+        const srcSymbolPattern = await vscode.window.showInputBox({
+          prompt: 'Type a symbol pattarn to rename',
           validateInput: (value) => {
             return validateRequired(value);
           },
         });
-        if (!srcFileNamePattern) {
+        if (!srcSymbolPattern) {
           return;
         }
 
-        const destFileNamePattern = await vscode.window.showInputBox({
-          prompt: `Rename ${srcFileNamePattern} to...`,
-          value: srcFileNamePattern,
+        const destSymbolPattern = await vscode.window.showInputBox({
+          prompt: `Rename ${srcSymbolPattern} to...`,
+          value: srcSymbolPattern,
           validateInput: (value) => {
             return validateRequired(value);
           },
         });
-        if (!destFileNamePattern) {
+        if (!destSymbolPattern) {
           return;
         }
 
         await progress('Renaming...', async () => {
-          const params: RenameFilesRequestParams = {
-            dirPath: uri.path,
-            srcFileNamePattern,
-            destFileNamePattern,
+          const params: RenameAllRequestParams = {
+            srcPaths: srcPaths,
+            srcSymbolPattern: srcSymbolPattern,
+            destSymbolPattern: destSymbolPattern,
           };
-          const error = await client.sendRequest(
-            RenameFilesRequestType,
-            params,
-          );
+          const error = await client.sendRequest(RenameAllRequestType, params);
           if (error) {
             throw new Error(error);
           }

@@ -3,21 +3,25 @@
 import { cli } from 'cleye';
 
 import { bin, description, version } from '../package.json';
-import dirCommand from './commands/dir.js';
-import fileCommand from './commands/file.js';
-import filesCommand from './commands/files.js';
+import allCommand from './commands/all.js';
 import symbolsCommand from './commands/symbols.js';
 
-const argv = cli({
-  name: Object.keys(bin).at(0),
+const argv = cli(
+  {
+    name: Object.keys(bin).at(0),
 
-  version: version,
+    version: version,
 
-  parameters: ['<command>'],
+    parameters: ['<srcPath>', '[srcPaths...]'],
 
-  help: {
-    description: description,
+    help: {
+      description: description,
+      examples: ['ts-rename-all src/app-button'],
+    },
+
+    commands: [symbolsCommand],
   },
-
-  commands: [symbolsCommand, fileCommand, filesCommand, dirCommand],
-});
+  async (argv) => {
+    await allCommand([argv._.srcPath, ...argv._.srcPaths]);
+  },
+);

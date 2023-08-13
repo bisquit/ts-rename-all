@@ -1,27 +1,32 @@
 import { Project } from 'ts-morph';
 
 import { deriveSymbolChanges } from './derive-change/deriveSymbolChanges.js';
+import { addSourceFiles as _addSourceFiles } from './morph/addSourceFiles.js';
 import { renameSymbols as _renameSymbols } from './morph/renameSymbols.js';
 
 export async function renameSymbols(
-  srcFilePath: string,
+  srcPaths: string[],
   config: { srcSymbolPattern: string; destSymbolPattern: string },
 ) {
-  const project = new Project({});
-  const sourceFile = project.addSourceFileAtPath(srcFilePath);
+  const { srcSymbolPattern, destSymbolPattern } = config;
 
-  // derive changes
+  const project = new Project({});
+  await _addSourceFiles(project, srcPaths);
+
+  const sourceFiles = project.getSourceFiles();
+
   const changes = deriveSymbolChanges({
-    before: config.srcSymbolPattern,
-    after: config.destSymbolPattern,
+    before: srcSymbolPattern,
+    after: destSymbolPattern,
   });
 
-  // iterate changes and run morph.renameSymbols
-  for (const change of changes) {
-    await _renameSymbols(sourceFile, {
-      srcSymbolPattern: change.before,
-      destSymbolPattern: change.after,
-    });
+  for (const sourceFile of sourceFiles) {
+    for (const change of changes) {
+      await _renameSymbols(sourceFile, {
+        srcSymbolPattern: change.before,
+        destSymbolPattern: change.after,
+      });
+    }
   }
 
   await project.save();

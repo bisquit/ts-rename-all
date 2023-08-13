@@ -13,11 +13,12 @@ const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
 beforeEach(async () => {
   await resetDir();
   await copyFixture('Foo.ts');
+  await copyFixture('mixed-button');
 });
 
 describe('renameSymbols', () => {
   test('Foo => Bar', async () => {
-    await renameSymbols(resolveFixturePath('Foo.ts'), {
+    await renameSymbols([resolveFixturePath('Foo.ts')], {
       srcSymbolPattern: 'Foo',
       destSymbolPattern: 'Bar',
     });
@@ -52,5 +53,19 @@ describe('renameSymbols', () => {
     expect(content).toMatch('let hooLet =');
     expect(content).toMatch('var barVar =');
     expect(content).toMatch('var hooVar =');
+  });
+
+  test('mixed', async () => {
+    await renameSymbols([resolveFixturePath('mixed-button/')], {
+      srcSymbolPattern: 'button',
+      destSymbolPattern: 'tab',
+    });
+
+    const content = await readFile(
+      resolveFixturePath('mixed-button/MixedButton.tsx'),
+      'utf-8',
+    );
+
+    expect(content).toMatch('export default function MixedTab(');
   });
 });

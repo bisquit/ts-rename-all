@@ -25,22 +25,12 @@
     "commands": [
       {
         "command": "ts-rename-all.renameSymbols",
-        "title": "Rename all symbols in a file",
+        "title": "Rename all symbols in files",
         "category": "TS Rename All"
       },
       {
-        "command": "ts-rename-all.renameFile",
-        "title": "Rename file and all symbols in it",
-        "category": "TS Rename All"
-      },
-      {
-        "command": "ts-rename-all.renameFiles",
-        "title": "Rename all files in a directory and all symbols in the files",
-        "category": "TS Rename All"
-      },
-      {
-        "command": "ts-rename-all.renameDir",
-        "title": "Rename a directory name and all files in the directory and all symbols in the files",
+        "command": "ts-rename-all.renameAll",
+        "title": "Rename all filenames, dirnames and symbols in files",
         "category": "TS Rename All"
       }
     ],
@@ -51,15 +41,7 @@
           "when": "editorLangId == typescript || editorLangId == typescriptreact"
         },
         {
-          "command": "ts-rename-all.renameFile",
-          "when": "false"
-        },
-        {
-          "command": "ts-rename-all.renameFiles",
-          "when": "false"
-        },
-        {
-          "command": "ts-rename-all.renameDir",
+          "command": "ts-rename-all.renameAll",
           "when": "false"
         }
       ],
@@ -71,17 +53,11 @@
       ],
       "explorer/context": [
         {
-          "command": "ts-rename-all.renameFile",
-          "when": "!explorerResourceIsFolder"
-        },
-        {
-          "command": "ts-rename-all.renameFiles",
-          "when": "explorerResourceIsFolder",
+          "command": "ts-rename-all.renameSymbols",
           "group": "ts-rename-all@1"
         },
         {
-          "command": "ts-rename-all.renameDir",
-          "when": "explorerResourceIsFolder",
+          "command": "ts-rename-all.renameAll",
           "group": "ts-rename-all@2"
         }
       ]

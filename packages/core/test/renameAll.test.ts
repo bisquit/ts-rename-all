@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import { renameDir } from '../src/index.js';
+import { renameAll } from '../src/renameAll.js';
 import { setupFixture } from './test-utils.js';
 
 const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
@@ -15,10 +15,11 @@ beforeEach(async () => {
   await copyFixture('mixed-button');
 });
 
-describe('renameDir', () => {
+describe('renameAll', () => {
   test('button => tab', async () => {
-    await renameDir(resolveFixturePath('mixed-button'), {
-      destDirName: 'mixed-tab',
+    await renameAll([resolveFixturePath('mixed-button')], {
+      srcSymbolPattern: 'button',
+      destSymbolPattern: 'tab',
     });
 
     const fixturePath1 = resolveFixturePath('mixed-tab', 'mixed_tab_type.ts');
