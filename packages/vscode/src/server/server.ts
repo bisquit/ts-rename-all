@@ -23,34 +23,50 @@ connection.onInitialize(() => {
 
 connection.onRequest(RenameSymbolsRequestType, async (params) => {
   const { srcFilePath, srcSymbolPattern, destSymbolPattern } = params;
-  await renameSymbols(srcFilePath, {
-    srcSymbolPattern: srcSymbolPattern,
-    destSymbolPattern: destSymbolPattern,
-  });
+  try {
+    await renameSymbols(srcFilePath, {
+      srcSymbolPattern: srcSymbolPattern,
+      destSymbolPattern: destSymbolPattern,
+    });
+  } catch (e) {
+    return (e as Error).message;
+  }
 });
 
 connection.onRequest(RenameFileRequestType, async (params) => {
   const { srcFilePath, destFileName, srcFileName } = params;
-  await renameFile(srcFilePath, {
-    destFileName,
-    srcFileName,
-  });
+  try {
+    await renameFile(srcFilePath, {
+      destFileName,
+      srcFileName,
+    });
+  } catch (e) {
+    return (e as Error).message;
+  }
 });
 
 connection.onRequest(RenameFilesRequestType, async (params) => {
   const { dirPath, srcFileNamePattern, destFileNamePattern } = params;
-  await renameFiles(dirPath, {
-    srcFileNamePattern,
-    destFileNamePattern,
-  });
+  try {
+    await renameFiles(dirPath, {
+      srcFileNamePattern,
+      destFileNamePattern,
+    });
+  } catch (e) {
+    return (e as Error).message;
+  }
 });
 
 connection.onRequest(RenameDirRequestType, async (params) => {
   const { srcDirPath, destDirName, srcDirName } = params;
-  await renameDir(srcDirPath, {
-    destDirName,
-    srcDirName,
-  });
+  try {
+    await renameDir(srcDirPath, {
+      destDirName,
+      srcDirName,
+    });
+  } catch (e) {
+    return (e as Error).message;
+  }
 });
 
 connection.listen();
