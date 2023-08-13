@@ -38,5 +38,18 @@ describe('renameDir', () => {
     expect(await readFile(fixturePath3, 'utf-8')).toMatch(
       'export function useMixedTab()',
     );
+
+    const nestedDir1 = resolveFixturePath('mixed-tab', 'nested-mixed-tab');
+    expect(existsSync(nestedDir1)).toBe(true);
+
+    const nestedPath1 = resolveFixturePath(
+      'mixed-tab',
+      'nested-mixed-tab',
+      'NestedMixedTab.tsx',
+    );
+    expect(existsSync(nestedPath1)).toBe(true);
+    expect(await readFile(nestedPath1, 'utf-8')).toMatch(
+      'export default function NestedMixedTab({ type }: NestedMixedTabProps)',
+    );
   });
 });
