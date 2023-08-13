@@ -1,4 +1,5 @@
 import { getPathComponents } from '@ts-rename-all/shared';
+import remove from 'just-remove';
 import { Project } from 'ts-morph';
 
 import { deriveFilenameChanges } from './derive-change/deriveFilenameChanges.js';
@@ -22,9 +23,18 @@ export async function renameDir(
     throw new Error('Be sure to specify a directory.');
   }
 
+  const childDirs = getChildDirectories(project);
+
   await _renameDirName(rootDir, {
     destDirName: config.destDirName,
   });
+
+  for (const dir of childDirs) {
+    await _renameDirName(dir, {
+      srcSymbolPattern: srcDirName,
+      destSymbolPattern: config.destDirName,
+    });
+  }
 
   for (const sourceFile of project.getSourceFiles()) {
     const beforeFilename = sourceFile.getBaseName();
@@ -61,4 +71,12 @@ export async function renameDir(
   }
 
   await project.save();
+}
+
+function getChildDirectories(project: Project) {
+  // `getDirectories` returns all directories, including root directories.
+  const allDirs = project.getDirectories();
+  const rootDirs = project.getRootDirectories();
+
+  return remove(allDirs, rootDirs);
 }
