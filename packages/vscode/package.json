@@ -68,30 +68,26 @@
           "when": "false"
         }
       ],
-      "editor/context": [
-        {
-          "command": "ts-rename-all.menu.renameSymbols",
-          "when": "editorLangId == typescript || editorLangId == typescriptreact"
-        }
-      ],
       "explorer/context": [
         {
           "command": "ts-rename-all.menu.renameDir",
           "group": "ts-rename-all@1",
-          "when": "explorerResourceIsFolder"
+          "when": "explorerResourceIsFolder && !listMultiSelection"
         },
         {
           "command": "ts-rename-all.menu.renameFile",
           "group": "ts-rename-all@1",
-          "when": "!explorerResourceIsFolder"
+          "when": "!explorerResourceIsFolder && !listMultiSelection && (resourceLangId == typescript || resourceLangId == typescriptreact)"
         },
         {
           "command": "ts-rename-all.menu.renameSymbols",
-          "group": "ts-rename-all@2"
+          "group": "ts-rename-all@2",
+          "when": "explorerResourceIsFolder || (!explorerResourceIsFolder && (resourceLangId == typescript || resourceLangId == typescriptreact))"
         },
         {
           "command": "ts-rename-all.menu.renameAll",
-          "group": "ts-rename-all@3"
+          "group": "ts-rename-all@3",
+          "when": "explorerResourceIsFolder || (!explorerResourceIsFolder && (resourceLangId == typescript || resourceLangId == typescriptreact))"
         }
       ]
     }
