@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "TS Rename All",
   "description": "Once rename a file name, then symbols are also renamed.",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "license": "MIT",
   "publisher": "bisquit",
   "icon": "assets/icon.png",
