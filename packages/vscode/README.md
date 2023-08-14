@@ -4,6 +4,6 @@ Once rename a file or directory, then the filenames, dirnames and symbols are re
 
 ## Usage
 
-Rename a directory:
+Rename symbols:
 
-<img src="./assets/renameDir.gif" width="80%" />
+<img src="./assets/renameSymbols.gif" width="80%" />
