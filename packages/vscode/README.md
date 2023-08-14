@@ -1,21 +1,9 @@
 # vscode-ts-rename-all
 
-Once rename, then others are also renamed the same way.
+Once rename a file or directory, then the filenames, dirnames and symbols are renamed in the same way.
 
 ## Usage
 
-Rename all symbols in a file:
+Rename a directory:
 
-TODO
-
-Rename a file name and all symbols in the file:
-
-TODO
-
-Rename all files in a directory and all symbols in the files:
-
-TODO
-
-Rename a directory name and all files in the directory and all symbols in the files:
-
-TODO
+<img src="./assets/renameDir" width="80%" />
