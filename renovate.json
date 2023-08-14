@@ -10,17 +10,5 @@
   "major": {
     "labels": ["major"]
   },
-  "packageRules": [
-    {
-      "description": "Don't bump engines field in package.json",
-      "matchPackageNames": ["node", "vscode"],
-      "matchDepTypes": ["engines"],
-      "rangeStrategy": "auto"
-    },
-    {
-      "description": "Don't bump @types/vscode",
-      "matchPackageNames": ["@types/vscode"],
-      "rangeStrategy": "auto"
-    }
-  ]
+  "ignoreDeps": ["node", "vscode", "@types/vscode"]
 }
