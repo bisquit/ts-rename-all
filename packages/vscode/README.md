@@ -1,21 +1,23 @@
 # vscode-ts-rename-all
 
-Once rename, then others are also renamed the same way.
+Once rename a file or directory, then the filenames, dirnames and symbols are renamed in the same way.
 
 ## Usage
 
-Rename all symbols in a file:
+### Rename a directory
 
-TODO
+Select a directory in the explorer, then right-click > `TS Rename All: Rename...`.
 
-Rename a file name and all symbols in the file:
+<img src="./assets/demo/renameDir.gif" width="100%" />
 
-TODO
+### Rename a file
 
-Rename all files in a directory and all symbols in the files:
+Select a file in the explorer, then right-click > `TS Rename All: Rename...`.
 
-TODO
+<img src="./assets/demo/renameFile.gif" width="100%" />
 
-Rename a directory name and all files in the directory and all symbols in the files:
+### Rename symbols
 
-TODO
+Open a TypeScript file, then Cmd + Shift + P > `TS Rename All: Rename symbols`.
+
+<img src="./assets/demo/renameSymbols.gif" width="100%" />
