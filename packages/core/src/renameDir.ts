@@ -6,34 +6,45 @@ import { renameDirName as _renameDirName } from './morph/renameDirName.js';
 import { renameFileName as _renameFilename } from './morph/renameFileName.js';
 import { renameSymbols as _renameSymbols } from './morph/renameSymbols.js';
 import { addSourceFilesByPhysicalPaths } from './utils/addSourceFiles.js';
+import { getChildDirectories } from './utils/getChildDirectories.js';
 
 /**
- * Rename filenames, dirnames and symbols in the given paths by pattern.
+ * Rename single directory name, and all child dirnames, filenames and symbols.
+ * This API is specialized for IDE rename usecase.
  */
-export async function renameAll(
+export async function renameDir(
   /**
-   * File or directory paths. Do not accept glob pattern.
-   * @example
-   * ['src/index.ts', 'src/foo-dir']
+   * Directory path. Do not accept glob pattern.
    */
-  srcPaths: string[],
+  dirPath: string,
   /**
    * Configuration.
    */
-  config: { srcSymbolPattern: string; destSymbolPattern: string },
+  config: {
+    destDirName: string;
+    srcSymbolPattern: string;
+    destSymbolPattern: string;
+  },
 ) {
-  const { srcSymbolPattern, destSymbolPattern } = config;
+  const { destDirName, srcSymbolPattern, destSymbolPattern } = config;
 
   const project = new Project({});
-  await addSourceFilesByPhysicalPaths(project, srcPaths);
+  await addSourceFilesByPhysicalPaths(project, [dirPath]);
 
-  // rename dirnames
-  const dirs = project.getDirectories();
+  // rename root dirname
+  const rootDir = project.getRootDirectories().at(0);
+  if (!rootDir) {
+    throw new Error('rootDir not found');
+  }
+  await _renameDirName(rootDir, { destDirName });
+
+  // rename child dirnames
+  const childDirs = await getChildDirectories(project);
   const dirnameChanges = deriveFilenameChanges({
     before: srcSymbolPattern,
     after: destSymbolPattern,
   });
-  for (const dir of dirs) {
+  for (const dir of childDirs) {
     for (const change of dirnameChanges) {
       await _renameDirName(dir, {
         srcSymbolPattern: change.before,

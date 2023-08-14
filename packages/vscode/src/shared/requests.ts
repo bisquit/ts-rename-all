@@ -23,3 +23,27 @@ export const RenameAllRequestType = new RequestType<
   ErrorType,
   void
 >('ts-rename-all/renameAll');
+
+export type RenameDirRequestParams = {
+  dirPath: string;
+  destDirName: string;
+  srcSymbolPattern: string;
+  destSymbolPattern: string;
+};
+export const RenameDirRequestType = new RequestType<
+  RenameDirRequestParams,
+  ErrorType,
+  void
+>('ts-rename-all/renameDir');
+
+export type RenameFileRequestParams = {
+  filePath: string;
+  destFileName: string;
+  srcSymbolPattern: string;
+  destSymbolPattern: string;
+};
+export const RenameFileRequestType = new RequestType<
+  RenameFileRequestParams,
+  ErrorType,
+  void
+>('ts-rename-all/renameFile');

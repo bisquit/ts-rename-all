@@ -25,13 +25,24 @@
     "commands": [
       {
         "command": "ts-rename-all.renameSymbols",
-        "title": "Rename all symbols in files",
+        "title": "Rename symbols",
         "category": "TS Rename All"
       },
       {
-        "command": "ts-rename-all.renameAll",
-        "title": "Rename all filenames, dirnames and symbols in files",
-        "category": "TS Rename All"
+        "command": "ts-rename-all.menu.renameDir",
+        "title": "TS Rename All: Rename..."
+      },
+      {
+        "command": "ts-rename-all.menu.renameFile",
+        "title": "TS Rename All: Rename..."
+      },
+      {
+        "command": "ts-rename-all.menu.renameSymbols",
+        "title": "TS Rename All: Rename symbols"
+      },
+      {
+        "command": "ts-rename-all.menu.renameAll",
+        "title": "TS Rename All: Rename all by pattern"
       }
     ],
     "menus": {
@@ -41,24 +52,46 @@
           "when": "editorLangId == typescript || editorLangId == typescriptreact"
         },
         {
-          "command": "ts-rename-all.renameAll",
+          "command": "ts-rename-all.menu.renameDir",
+          "when": "false"
+        },
+        {
+          "command": "ts-rename-all.menu.renameFile",
+          "when": "false"
+        },
+        {
+          "command": "ts-rename-all.menu.renameSymbols",
+          "when": "false"
+        },
+        {
+          "command": "ts-rename-all.menu.renameAll",
           "when": "false"
         }
       ],
       "editor/context": [
         {
-          "command": "ts-rename-all.renameSymbols",
+          "command": "ts-rename-all.menu.renameSymbols",
           "when": "editorLangId == typescript || editorLangId == typescriptreact"
         }
       ],
       "explorer/context": [
         {
-          "command": "ts-rename-all.renameSymbols",
-          "group": "ts-rename-all@1"
+          "command": "ts-rename-all.menu.renameDir",
+          "group": "ts-rename-all@1",
+          "when": "explorerResourceIsFolder"
         },
         {
-          "command": "ts-rename-all.renameAll",
+          "command": "ts-rename-all.menu.renameFile",
+          "group": "ts-rename-all@1",
+          "when": "!explorerResourceIsFolder"
+        },
+        {
+          "command": "ts-rename-all.menu.renameSymbols",
           "group": "ts-rename-all@2"
+        },
+        {
+          "command": "ts-rename-all.menu.renameAll",
+          "group": "ts-rename-all@3"
         }
       ]
     }
