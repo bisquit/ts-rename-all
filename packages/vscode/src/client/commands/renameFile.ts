@@ -13,45 +13,48 @@ import { validateChanged } from '../utils/validateChanged';
 import { validateRequired } from '../utils/validateRequired';
 
 export default (client: LanguageClient) =>
-  vscode.commands.registerCommand(
-    'ts-rename-all.renameFile',
-    async (uri?: vscode.Uri) => {
-      await catchError(async () => {
-        if (!uri) {
-          return;
-        }
+  async (_: unknown, argUris?: vscode.Uri[]) => {
+    await catchError(async () => {
+      if (!argUris) {
+        return;
+      }
 
-        const { filename, name } = getPathComponents(uri.path);
+      // pick first one (same as built-in `Rename` does)
+      const uri = argUris[0];
 
-        const destFileName = await vscode.window.showInputBox({
-          prompt: 'Type a new file name',
-          value: filename,
-          valueSelection: [0, name.length],
-          validateInput: (value) => {
-            return validateRequired(value) || validateChanged(value, filename);
-          },
-        });
-        if (!destFileName) {
-          return;
-        }
+      const filePath = uri.path;
+      const { filename, name } = getPathComponents(filePath);
 
-        // trim ' copy', which is added by vscode
-        // this is an arbitrary manipulation, but it is common usecase that a user copies a file and rename it.
-        const srcFileName = filename.replace(/ copy/, '');
-
-        await progress('Renaming...', async () => {
-          const params: RenameFileRequestParams = {
-            srcFilePath: uri.path,
-            destFileName: destFileName,
-            srcFileName: srcFileName,
-          };
-          const error = await client.sendRequest(RenameFileRequestType, params);
-          if (error) {
-            throw new Error(error);
-          }
-        });
-
-        await success();
+      const destFileName = await vscode.window.showInputBox({
+        prompt: 'Type a new file name',
+        value: filename,
+        valueSelection: [0, name.length],
+        validateInput: (value) => {
+          return validateRequired(value) || validateChanged(value, filename);
+        },
       });
-    },
-  );
+      if (!destFileName) {
+        return;
+      }
+
+      // trim ' copy', which is added by vscode
+      // this is an arbitrary manipulation, but it is common usecase that a user copies a directory and rename it.
+      const srcSymbolPattern = name.replace(/ copy/, '');
+      const destSymbolPattern = getPathComponents(destFileName).name;
+
+      await progress('Renaming...', async () => {
+        const params: RenameFileRequestParams = {
+          filePath,
+          destFileName,
+          srcSymbolPattern,
+          destSymbolPattern,
+        };
+        const error = await client.sendRequest(RenameFileRequestType, params);
+        if (error) {
+          throw new Error(error);
+        }
+      });
+
+      await success();
+    });
+  };

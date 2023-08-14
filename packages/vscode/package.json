@@ -25,23 +25,24 @@
     "commands": [
       {
         "command": "ts-rename-all.renameSymbols",
-        "title": "Rename all symbols in a file",
+        "title": "Rename symbols",
         "category": "TS Rename All"
       },
       {
-        "command": "ts-rename-all.renameFile",
-        "title": "Rename file and all symbols in it",
-        "category": "TS Rename All"
+        "command": "ts-rename-all.menu.renameDir",
+        "title": "TS Rename All: Rename..."
       },
       {
-        "command": "ts-rename-all.renameFiles",
-        "title": "Rename all files in a directory and all symbols in the files",
-        "category": "TS Rename All"
+        "command": "ts-rename-all.menu.renameFile",
+        "title": "TS Rename All: Rename..."
       },
       {
-        "command": "ts-rename-all.renameDir",
-        "title": "Rename a directory name and all files in the directory and all symbols in the files",
-        "category": "TS Rename All"
+        "command": "ts-rename-all.menu.renameSymbols",
+        "title": "TS Rename All: Rename symbols"
+      },
+      {
+        "command": "ts-rename-all.menu.renameAll",
+        "title": "TS Rename All: Rename all by pattern"
       }
     ],
     "menus": {
@@ -51,38 +52,46 @@
           "when": "editorLangId == typescript || editorLangId == typescriptreact"
         },
         {
-          "command": "ts-rename-all.renameFile",
+          "command": "ts-rename-all.menu.renameDir",
           "when": "false"
         },
         {
-          "command": "ts-rename-all.renameFiles",
+          "command": "ts-rename-all.menu.renameFile",
           "when": "false"
         },
         {
-          "command": "ts-rename-all.renameDir",
+          "command": "ts-rename-all.menu.renameSymbols",
+          "when": "false"
+        },
+        {
+          "command": "ts-rename-all.menu.renameAll",
           "when": "false"
         }
       ],
       "editor/context": [
         {
-          "command": "ts-rename-all.renameSymbols",
+          "command": "ts-rename-all.menu.renameSymbols",
           "when": "editorLangId == typescript || editorLangId == typescriptreact"
         }
       ],
       "explorer/context": [
         {
-          "command": "ts-rename-all.renameFile",
+          "command": "ts-rename-all.menu.renameDir",
+          "group": "ts-rename-all@1",
+          "when": "explorerResourceIsFolder"
+        },
+        {
+          "command": "ts-rename-all.menu.renameFile",
+          "group": "ts-rename-all@1",
           "when": "!explorerResourceIsFolder"
         },
         {
-          "command": "ts-rename-all.renameFiles",
-          "when": "explorerResourceIsFolder",
-          "group": "ts-rename-all@1"
+          "command": "ts-rename-all.menu.renameSymbols",
+          "group": "ts-rename-all@2"
         },
         {
-          "command": "ts-rename-all.renameDir",
-          "when": "explorerResourceIsFolder",
-          "group": "ts-rename-all@2"
+          "command": "ts-rename-all.menu.renameAll",
+          "group": "ts-rename-all@3"
         }
       ]
     }

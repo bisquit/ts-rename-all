@@ -6,42 +6,34 @@ import { renameDirName as _renameDirName } from './morph/renameDirName.js';
 import { renameFileName as _renameFilename } from './morph/renameFileName.js';
 import { renameSymbols as _renameSymbols } from './morph/renameSymbols.js';
 import { addSourceFilesByPhysicalPaths } from './utils/addSourceFiles.js';
-import { getChildDirectories } from './utils/getChildDirectories.js';
 
 /**
- * Rename single directory name, and all child dirnames, filenames and symbols.
- * This API is specialized for IDE rename usecase.
+ * Rename filenames, dirnames and symbols in the given paths by pattern.
  */
-export async function renameDir(
+export async function renameAll(
   /**
-   * Directory path. Do not accept glob pattern.
+   * File or directory paths. Do not accept glob pattern.
+   * @example
+   * ['src/index.ts', 'src/foo-dir']
    */
-  dirPath: string,
+  srcPaths: string[],
   /**
    * Configuration.
    */
-  config: {
-    destDirName: string;
-    srcSymbolPattern: string;
-    destSymbolPattern: string;
-  },
+  config: { srcSymbolPattern: string; destSymbolPattern: string },
 ) {
-  const { destDirName, srcSymbolPattern, destSymbolPattern } = config;
+  const { srcSymbolPattern, destSymbolPattern } = config;
 
   const project = new Project({});
-  await addSourceFilesByPhysicalPaths(project, [dirPath]);
+  await addSourceFilesByPhysicalPaths(project, srcPaths);
 
-  // rename root dirname
-  const rootDir = project.getDirectoryOrThrow(dirPath);
-  await _renameDirName(rootDir, { destDirName });
-
-  // rename child dirnames
-  const childDirs = await getChildDirectories(project);
+  // rename dirnames
+  const dirs = project.getDirectories();
   const dirnameChanges = deriveFilenameChanges({
     before: srcSymbolPattern,
     after: destSymbolPattern,
   });
-  for (const dir of childDirs) {
+  for (const dir of dirs) {
     for (const change of dirnameChanges) {
       await _renameDirName(dir, {
         srcSymbolPattern: change.before,

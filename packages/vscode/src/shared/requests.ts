@@ -3,7 +3,7 @@ import { RequestType } from 'vscode-jsonrpc/node';
 type ErrorType = string | undefined;
 
 export type RenameSymbolsRequestParams = {
-  srcFilePath: string;
+  srcPaths: string[];
   srcSymbolPattern: string;
   destSymbolPattern: string;
 };
@@ -13,35 +13,37 @@ export const RenameSymbolsRequestType = new RequestType<
   void
 >('ts-rename-all/renameSymbols');
 
-export type RenameFileRequestParams = {
-  srcFilePath: string;
-  destFileName: string;
-  srcFileName: string;
+export type RenameAllRequestParams = {
+  srcPaths: string[];
+  srcSymbolPattern: string;
+  destSymbolPattern: string;
 };
-export const RenameFileRequestType = new RequestType<
-  RenameFileRequestParams,
+export const RenameAllRequestType = new RequestType<
+  RenameAllRequestParams,
   ErrorType,
   void
->('ts-rename-all/renameFile');
-
-export type RenameFilesRequestParams = {
-  dirPath: string;
-  srcFileNamePattern: string;
-  destFileNamePattern: string;
-};
-export const RenameFilesRequestType = new RequestType<
-  RenameFilesRequestParams,
-  ErrorType,
-  void
->('ts-rename-all/renameFiles');
+>('ts-rename-all/renameAll');
 
 export type RenameDirRequestParams = {
-  srcDirPath: string;
+  dirPath: string;
   destDirName: string;
-  srcDirName: string;
+  srcSymbolPattern: string;
+  destSymbolPattern: string;
 };
 export const RenameDirRequestType = new RequestType<
   RenameDirRequestParams,
   ErrorType,
   void
 >('ts-rename-all/renameDir');
+
+export type RenameFileRequestParams = {
+  filePath: string;
+  destFileName: string;
+  srcSymbolPattern: string;
+  destSymbolPattern: string;
+};
+export const RenameFileRequestType = new RequestType<
+  RenameFileRequestParams,
+  ErrorType,
+  void
+>('ts-rename-all/renameFile');

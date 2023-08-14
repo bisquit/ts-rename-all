@@ -11,14 +11,20 @@ import { success } from '../utils/success';
 import { validateRequired } from '../utils/validateRequired';
 
 export default (client: LanguageClient) =>
-  vscode.commands.registerCommand('ts-rename-all.renameSymbols', async () => {
+  async (_: unknown, argUris?: vscode.Uri[]) => {
     await catchError(async () => {
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) {
-        return;
-      }
+      let srcPaths: string[];
 
-      const filePath = editor.document.uri.path;
+      // args are passed when called from the context menu
+      if (argUris && argUris.length > 0) {
+        srcPaths = argUris.map((uri) => uri.path);
+      } else {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+          return;
+        }
+        srcPaths = [editor.document.uri.path];
+      }
 
       const srcSymbolPattern = await vscode.window.showInputBox({
         prompt: 'Type a symbol pattarn to rename',
@@ -43,7 +49,7 @@ export default (client: LanguageClient) =>
 
       await progress('Renaming...', async () => {
         const params: RenameSymbolsRequestParams = {
-          srcFilePath: filePath,
+          srcPaths: srcPaths,
           srcSymbolPattern: srcSymbolPattern,
           destSymbolPattern: destSymbolPattern,
         };
@@ -58,4 +64,4 @@ export default (client: LanguageClient) =>
 
       await success();
     });
-  });
+  };

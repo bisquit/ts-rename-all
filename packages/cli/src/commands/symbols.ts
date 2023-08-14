@@ -12,43 +12,39 @@ import { validateRequired } from '../utils/validateRequired.js';
 export default command(
   {
     name: 'symbols',
-    parameters: ['<srcFilePath>', '[srcSymbolPattern]', '[destSymbolPattern]'],
+    parameters: ['<srcPath>', '[srcPaths...]'],
     help: {
-      description: 'Rename all symbols in a file.',
-      examples: ['ts-rename-all symbols src/index.ts Foo Bar'],
+      description: 'Rename all symbols in files.',
+      examples: ['ts-rename-all symbols src/index.ts'],
     },
   },
   async (argv) => {
     await catchError(async () => {
-      const srcFilePath = argv._.srcFilePath;
-      await checkFsExists(srcFilePath);
+      const srcPaths = [argv._.srcPath, ...argv._.srcPaths];
+      console.log(srcPaths);
 
-      const srcSymbolPattern =
-        argv._.srcSymbolPattern ??
-        (await cancellable(
-          text({
-            message: 'Type a symbol pattarn to rename',
-            validate: (value) => {
-              return validateRequired(value);
-            },
-          }),
-        ));
+      const srcSymbolPattern = await cancellable(
+        text({
+          message: 'Type a symbol pattarn to rename',
+          validate: (value) => {
+            return validateRequired(value);
+          },
+        }),
+      );
 
-      const destSymbolPattern =
-        argv._.destSymbolPattern ??
-        (await cancellable(
-          text({
-            message: 'Type a new symbol pattarn',
-            validate: (value) => {
-              return validateRequired(value);
-            },
-          }),
-        ));
+      const destSymbolPattern = await cancellable(
+        text({
+          message: 'Type a new symbol pattarn',
+          validate: (value) => {
+            return validateRequired(value);
+          },
+        }),
+      );
 
       await progress(
         'Renaming...',
         async () => {
-          await renameSymbols(argv._.srcFilePath, {
+          await renameSymbols(srcPaths, {
             srcSymbolPattern: srcSymbolPattern,
             destSymbolPattern: destSymbolPattern,
           });

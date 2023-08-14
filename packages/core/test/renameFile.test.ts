@@ -3,7 +3,8 @@ import { readFile } from 'node:fs/promises';
 
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import { renameFile } from '../src/index.js';
+import { renameDir } from '../src/renameDir.js';
+import { renameFile } from '../src/renameFile.js';
 import { setupFixture } from './test-utils.js';
 
 const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
@@ -12,22 +13,21 @@ const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
 
 beforeEach(async () => {
   await resetDir();
-  await copyFixture('AppButton.tsx');
+  await copyFixture('CopiedButton copy.tsx');
 });
 
 describe('renameFile', () => {
-  test('AppButton.tsx => AppTab.tsx', async () => {
-    await renameFile(resolveFixturePath('AppButton.tsx'), {
-      destFileName: 'AppTab.tsx',
+  test('button => tab', async () => {
+    await renameFile(resolveFixturePath('CopiedButton copy.tsx'), {
+      destFileName: 'CopiedTab.tsx',
+      srcSymbolPattern: 'CopiedButton',
+      destSymbolPattern: 'CopiedTab',
     });
 
-    expect(existsSync(resolveFixturePath('AppTab.tsx'))).toBe(true);
-
-    const content = await readFile(resolveFixturePath('AppTab.tsx'), 'utf-8');
-
-    expect(content).toMatch(
-      'export default function AppTab({ size }: AppTabProps)',
+    const fixturePath1 = resolveFixturePath('CopiedTab.tsx');
+    expect(existsSync(fixturePath1)).toBe(true);
+    expect(await readFile(fixturePath1, 'utf-8')).toMatch(
+      'function CopiedTab(',
     );
-    expect(content).toMatch('const APP_TAB_SIZES =');
   });
 });
