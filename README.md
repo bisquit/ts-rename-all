@@ -2,6 +2,7 @@
 
 ![version](https://img.shields.io/github/package-json/v/bisquit/ts-rename-all)
 [![CI](https://github.com/bisquit/ts-rename-all/actions/workflows/ci.yml/badge.svg)](https://github.com/bisquit/ts-rename-all/actions/workflows/ci.yml)
+[![Known Vulnerabilities](https://snyk.io/test/github/bisquit/ts-rename-all/badge.svg)](https://snyk.io/test/github/bisquit/ts-rename-all)
 
 Once rename a file name, then symbols are also renamed.
 
