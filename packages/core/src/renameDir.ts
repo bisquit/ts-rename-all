@@ -32,10 +32,7 @@ export async function renameDir(
   await addSourceFilesByPhysicalPaths(project, [dirPath]);
 
   // rename root dirname
-  const rootDir = project.getRootDirectories().at(0);
-  if (!rootDir) {
-    throw new Error('rootDir not found');
-  }
+  const rootDir = project.getDirectoryOrThrow(dirPath);
   await _renameDirName(rootDir, { destDirName });
 
   // rename child dirnames

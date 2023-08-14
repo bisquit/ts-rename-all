@@ -12,10 +12,21 @@ const { resetDir, copyFixture, resolveFixturePath } = await setupFixture(
 
 beforeEach(async () => {
   await resetDir();
+  await copyFixture('Foo.ts');
   await copyFixture('copied-button copy');
 });
 
 describe('renameDir', () => {
+  test('throw error if not directory specified', async () => {
+    await expect(() =>
+      renameDir(resolveFixturePath('Foo.ts'), {
+        destDirName: '',
+        srcSymbolPattern: '',
+        destSymbolPattern: '',
+      }),
+    ).rejects.toThrowError();
+  });
+
   test('button => tab', async () => {
     await renameDir(resolveFixturePath('copied-button copy'), {
       destDirName: 'copied-tab',
