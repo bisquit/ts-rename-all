@@ -1,5 +1,7 @@
 # vscode-ts-rename-all
 
+<a href="https://marketplace.visualstudio.com/items?itemName=bisquit.vscode-ts-rename-all"><img src="https://img.shields.io/visual-studio-marketplace/v/bisquit.vscode-ts-rename-all?color=blue"></a>
+
 Once rename a file name, then symbols are also renamed.
 
 ## Why?
