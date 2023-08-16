@@ -1,7 +1,7 @@
 {
   "name": "@ts-rename-all/core",
   "description": "Once rename a file name, then symbols are also renamed.",
-  "version": "0.11.4",
+  "version": "0.11.5",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
