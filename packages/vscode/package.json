@@ -116,7 +116,7 @@
     "@types/vscode": "^1.80.0",
     "@vscode/vsce": "^2.20.1",
     "concurrently": "^8.2.0",
-    "esbuild": "^0.19.1",
+    "esbuild": "^0.19.2",
     "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
   },
