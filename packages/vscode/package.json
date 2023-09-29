@@ -109,7 +109,7 @@
     "@ts-rename-all/shared": "workspace:*",
     "vscode-jsonrpc": "^8.1.0",
     "vscode-languageclient": "^8.1.0",
-    "vscode-languageserver": "^8.1.0"
+    "vscode-languageserver": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.5.4",
