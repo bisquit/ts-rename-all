@@ -35,7 +35,7 @@
     "change-case": "^4.1.2",
     "just-intersect": "^4.3.0",
     "just-remove": "^3.2.0",
-    "ts-morph": "^19.0.0"
+    "ts-morph": "^21.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.5.4",
