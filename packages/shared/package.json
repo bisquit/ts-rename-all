@@ -21,8 +21,8 @@
     "debug": "^4.3.4"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.8",
-    "@types/node": "^20.5.4",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^20.11.30",
     "tsup": "^7.2.0"
   },
   "repository": {
