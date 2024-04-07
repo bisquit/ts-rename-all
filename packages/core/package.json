@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@ts-rename-all/shared": "workspace:*",
-    "change-case": "^4.1.2",
+    "change-case": "^5.4.4",
     "just-intersect": "^4.3.0",
     "just-remove": "^3.2.0",
     "ts-morph": "^19.0.0"
